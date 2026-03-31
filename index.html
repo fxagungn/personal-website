@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FX Agung Nugroho. Learning Architect & People Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════
+   THEME VARIABLES
+═══════════════════════════════════════ */
+:root {
+  --blue:       #0064E0;
+  --blue-mid:   #0082FB;
+  --blue-glow:  rgba(0,100,224,0.18);
+  --green-ok:   #22C55E;
+  --amber:      #F59E0B;
+  --purple:     #c084fc;
+  --font-h:     'Sora', sans-serif;
+  --font-b:     'Inter', sans-serif;
+  --radius:     12px;
+  --transition: 0.25s ease;
+}
+
+/* DARK MODE */
+[data-theme="dark"] {
+  --bg:         #0A0E1A;
+  --surface:    #111827;
+  --surface-2:  #1A2332;
+  --surface-3:  #212D3D;
+  --border:     rgba(255,255,255,0.08);
+  --border-lit: rgba(0,130,251,0.3);
+  --text-1:     #F0F4FF;
+  --text-2:     #9BAABB;
+  --text-3:     #5E7285;
+  --nav-bg:     rgba(10,14,26,0.88);
+  --modal-bg:   rgba(0,0,0,0.85);
+  --card-hover: rgba(0,100,224,0.06);
+}
+
+/* LIGHT MODE */
+[data-theme="light"] {
+  --bg:         #F5F7FA;
+  --surface:    #FFFFFF;
+  --surface-2:  #F0F4F8;
+  --surface-3:  #E8EEF5;
+  --border:     rgba(0,0,0,0.09);
+  --border-lit: rgba(0,100,224,0.35);
+  --text-1:     #0A0E1A;
+  --text-2:     #3D5166;
+  --text-3:     #7A90A5;
+  --nav-bg:     rgba(245,247,250,0.92);
+  --modal-bg:   rgba(0,0,0,0.6);
+  --card-hover: rgba(0,100,224,0.04);
+}
+
+/* ═══════════════════════════════════════
+   BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font-b);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.9rem 5%;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: border-color var(--transition), background var(--transition);
+  gap: 1rem;
+}
+nav.scrolled { border-bottom-color: var(--border-lit); }
+.nav-logo { font-family: var(--font-h); font-weight: 700; font-size: 1rem; color: var(--text-1); letter-spacing: -0.01em; white-space: nowrap; }
+.nav-logo span { color: var(--blue-mid); }
+.nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; flex: 1; justify-content: center; }
+.nav-links a { text-decoration: none; color: var(--text-2); font-size: 0.82rem; font-weight: 500; transition: color var(--transition); white-space: nowrap; }
+.nav-links a:hover { color: var(--text-1); }
+
+/* Nav controls cluster */
+.nav-controls { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+
+/* Language toggle */
+.lang-toggle {
+  display: flex; align-items: center;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden;
+  font-size: 0.72rem; font-weight: 700;
+}
+.lang-btn {
+  padding: 0.38rem 0.7rem; cursor: pointer; border: none;
+  background: transparent; color: var(--text-3);
+  font-family: var(--font-b); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.04em; transition: background var(--transition), color var(--transition);
+}
+.lang-btn.active { background: var(--blue); color: #fff; }
+
+/* Theme toggle */
+.theme-toggle {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1rem;
+  transition: background var(--transition), border-color var(--transition);
+}
+.theme-toggle:hover { border-color: var(--border-lit); }
+
+.nav-cta {
+  background: var(--blue) !important; color: #fff !important;
+  padding: 0.42rem 1rem; border-radius: 6px;
+  font-weight: 700 !important; font-size: 0.8rem !important;
+  white-space: nowrap;
+  transition: background var(--transition), box-shadow var(--transition) !important;
+  text-decoration: none;
+}
+.nav-cta:hover { background: var(--blue-mid) !important; box-shadow: 0 0 16px var(--blue-glow) !important; }
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+#hero {
+  position: relative; min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; padding: 9rem 5% 5rem;
+  gap: 4rem; overflow: hidden; z-index: 1;
+}
+.hero-grid-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px; pointer-events: none;
+}
+.hero-glow { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(0,100,224,0.12) 0%, transparent 70%); top: -200px; right: -200px; pointer-events: none; }
+.hero-glow-2 { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(0,130,251,0.07) 0%, transparent 70%); bottom: 0; left: 10%; pointer-events: none; }
+.hero-text { position: relative; z-index: 2; }
+
+.hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,100,224,0.1); border: 1px solid rgba(0,100,224,0.28); border-radius: 100px; padding: 0.3rem 1rem; font-size: 0.72rem; font-weight: 600; color: var(--blue-mid); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.8rem; opacity: 0; animation: fadeUp 0.6s ease 0.15s forwards; }
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-ok); box-shadow: 0 0 6px var(--green-ok); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1;}50%{opacity:0.3;} }
+
+h1.hero-name { font-family: var(--font-h); font-size: clamp(2.6rem,5vw,4rem); font-weight: 800; line-height: 1.08; letter-spacing: -0.04em; color: var(--text-1); margin-bottom: 1rem; opacity: 0; animation: fadeUp 0.6s ease 0.3s forwards; }
+h1.hero-name .accent { color: var(--blue-mid); }
+h1.hero-name .thin { font-weight: 300; color: var(--text-2); }
+
+.hero-tagline { font-size: 1rem; color: var(--text-2); margin-bottom: 2rem; max-width: 480px; line-height: 1.75; opacity: 0; animation: fadeUp 0.6s ease 0.45s forwards; }
+.hero-tagline strong { color: var(--text-1); font-weight: 600; }
+
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.6s ease 0.6s forwards; }
+.btn-primary { background: var(--blue); color: #fff; padding: 0.8rem 1.8rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.88rem; box-shadow: 0 4px 24px rgba(0,100,224,0.3); transition: background var(--transition), transform var(--transition), box-shadow var(--transition); }
+.btn-primary:hover { background: var(--blue-mid); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,130,251,0.35); }
+.btn-ghost { background: transparent; color: var(--text-1); padding: 0.8rem 1.8rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.88rem; border: 1px solid var(--border); transition: border-color var(--transition), color var(--transition), transform var(--transition); }
+.btn-ghost:hover { border-color: var(--blue-mid); color: var(--blue-mid); transform: translateY(-2px); }
+
+.hero-meta { display: flex; gap: 2.5rem; margin-top: 3.5rem; opacity: 0; animation: fadeUp 0.6s ease 0.75s forwards; border-top: 1px solid var(--border); padding-top: 2rem; }
+.hm-num { font-family: var(--font-h); font-size: 1.8rem; font-weight: 800; color: var(--text-1); line-height: 1; letter-spacing: -0.04em; }
+.hm-num .u { color: var(--blue-mid); }
+.hm-label { font-size: 0.72rem; color: var(--text-3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2rem; }
+
+.hero-visual { position: relative; z-index: 2; opacity: 0; animation: fadeIn 1s ease 0.5s forwards; }
+.hv-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; position: relative; overflow: hidden; }
+.hv-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--blue-mid),transparent); opacity:0.5; }
+.hv-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.8rem; }
+.hv-avatar { width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg,var(--blue),var(--blue-mid)); display: flex; align-items: center; justify-content: center; font-family: var(--font-h); font-size: 1.3rem; font-weight: 800; color: #fff; flex-shrink: 0; }
+.hv-info h3 { font-family: var(--font-h); font-size: 1rem; font-weight: 700; color: var(--text-1); }
+.hv-info p { font-size: 0.78rem; color: var(--text-2); margin-top: 0.1rem; }
+.hv-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+.chip { background: rgba(0,100,224,0.1); border: 1px solid rgba(0,100,224,0.2); color: var(--blue-mid); border-radius: 6px; padding: 0.2rem 0.65rem; font-size: 0.7rem; font-weight: 600; }
+.chip.g { background: var(--surface-3); border-color: var(--border); color: var(--text-2); }
+.hv-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.hv-stat { background: var(--surface-3); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; }
+.hv-stat-val { font-family: var(--font-h); font-size: 1.3rem; font-weight: 800; color: var(--blue-mid); line-height: 1; }
+.hv-stat-label { font-size: 0.68rem; color: var(--text-3); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.07em; }
+.hv-float { position: absolute; background: var(--surface-3); border: 1px solid var(--border-lit); border-radius: 12px; padding: 0.7rem 1rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; font-weight: 600; color: var(--text-1); box-shadow: 0 8px 24px rgba(0,0,0,0.15); animation: floatY 4s ease-in-out infinite; white-space: nowrap; }
+.hv-float.f1 { top: -18px; right: 10px; animation-delay: 0s; }
+.hv-float.f2 { bottom: -18px; left: 10px; animation-delay: 2s; }
+
+@keyframes floatY { 0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+@keyframes fadeIn { from{opacity:0;}to{opacity:1;} }
+
+/* ═══════════════════════════════════════
+   SECTIONS COMMONS
+═══════════════════════════════════════ */
+section { padding: 6rem 5%; position: relative; z-index: 1; }
+.s-eyebrow { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.7rem; font-weight: 700; color: var(--blue-mid); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.9rem; }
+.s-eyebrow::before { content:''; display:block; width:24px; height:1.5px; background:var(--blue-mid); }
+.s-title { font-family: var(--font-h); font-size: clamp(1.8rem,3vw,2.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; color: var(--text-1); margin-bottom: 1rem; }
+.s-sub { font-size: 0.97rem; color: var(--text-2); max-width: 560px; line-height: 1.8; }
+.hdiv { height: 1px; background: var(--border); margin: 0 5%; }
+
+/* ═══════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════ */
+#about { background: var(--surface); }
+.about-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: start; margin-top: 3.5rem; }
+.about-portrait-wrap { position: sticky; top: 7rem; }
+.about-portrait { background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px; aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.ap-initials { font-family: var(--font-h); font-size: 7rem; font-weight: 800; color: var(--blue); opacity: 0.08; letter-spacing: -0.06em; user-select: none; }
+.ap-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(10,14,26,0.95), transparent); padding: 2rem 1.5rem 1.5rem; }
+[data-theme="light"] .ap-overlay { background: linear-gradient(to top, rgba(255,255,255,0.95), transparent); }
+.ap-overlay strong { display: block; font-family: var(--font-h); font-size: 1rem; font-weight: 700; color: var(--text-1); }
+.ap-overlay span { font-size: 0.8rem; color: var(--text-2); }
+.about-pull { font-family: var(--font-h); font-size: 1.15rem; font-weight: 600; color: var(--text-1); line-height: 1.5; border-left: 3px solid var(--blue); padding-left: 1.2rem; margin-bottom: 2rem; letter-spacing: -0.01em; }
+.about-body { font-size: 0.95rem; color: var(--text-2); line-height: 1.85; margin-bottom: 1.2rem; }
+.about-body strong { color: var(--text-1); font-weight: 600; }
+.pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 2rem; }
+.pillar { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; transition: border-color var(--transition); cursor: default; }
+.pillar:hover { border-color: var(--border-lit); }
+.pillar-ico { font-size: 1.3rem; margin-bottom: 0.45rem; }
+.pillar-t { font-weight: 700; font-size: 0.85rem; color: var(--text-1); margin-bottom: 0.2rem; }
+.pillar-d { font-size: 0.78rem; color: var(--text-3); line-height: 1.5; }
+
+/* ═══════════════════════════════════════
+   PHILOSOPHY
+═══════════════════════════════════════ */
+#philosophy { background: var(--bg); }
+.phil-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; margin-top: 3.5rem; }
+.phil-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; position: relative; overflow: hidden; transition: border-color var(--transition), transform var(--transition); cursor: default; }
+.phil-card:hover { border-color: var(--border-lit); transform: translateY(-3px); }
+.phil-card::after { content: attr(data-n); position: absolute; bottom: -0.5rem; right: 1rem; font-family: var(--font-h); font-size: 4.5rem; font-weight: 800; color: var(--border); line-height: 1; pointer-events: none; }
+.phil-ico { font-size: 1.8rem; margin-bottom: 1rem; }
+.phil-t { font-family: var(--font-h); font-size: 0.97rem; font-weight: 700; color: var(--text-1); margin-bottom: 0.6rem; }
+.phil-d { font-size: 0.83rem; color: var(--text-2); line-height: 1.7; }
+.phil-q { margin-top: 0.9rem; font-size: 0.78rem; color: var(--blue-mid); font-style: italic; }
+
+/* ═══════════════════════════════════════
+   AI TOOLS
+═══════════════════════════════════════ */
+#ai-tools { background: var(--surface); }
+.ai-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: start; margin-top: 3.5rem; }
+.ai-story p { font-size: 0.95rem; color: var(--text-2); line-height: 1.85; margin-bottom: 1.1rem; }
+.ai-story p strong { color: var(--text-1); }
+.ai-highlight { background: var(--surface-2); border: 1px solid var(--border-lit); border-radius: 14px; padding: 1.5rem; margin-top: 1.8rem; position: relative; overflow: hidden; }
+.ai-highlight::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--blue),var(--blue-mid)); }
+.ai-highlight p { font-size: 0.92rem; color: var(--text-1); font-style: italic; line-height: 1.65; margin-bottom: 0.5rem; }
+.ai-highlight cite { font-size: 0.76rem; color: var(--text-3); font-style: normal; }
+.tools-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.tool-item { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.2rem; display: flex; align-items: center; gap: 1rem; transition: border-color var(--transition), transform var(--transition); }
+.tool-item:hover { border-color: var(--border-lit); transform: translateX(4px); }
+.tool-emo { font-size: 1.4rem; width: 1.8rem; text-align: center; flex-shrink: 0; }
+.tool-info { flex: 1; min-width: 0; }
+.tool-n { font-weight: 700; font-size: 0.88rem; color: var(--text-1); }
+.tool-u { font-size: 0.76rem; color: var(--text-3); margin-top: 0.1rem; }
+.tool-badge { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 6px; text-transform: uppercase; flex-shrink: 0; }
+.tb-daily   { background: rgba(34,197,94,0.12);  color: #22C55E; border: 1px solid rgba(34,197,94,0.2); }
+.tb-regular { background: rgba(0,100,224,0.12);  color: var(--blue-mid); border: 1px solid rgba(0,100,224,0.2); }
+.tb-weekly  { background: rgba(245,158,11,0.12); color: #F59E0B; border: 1px solid rgba(245,158,11,0.2); }
+.tb-new     { background: rgba(192,132,252,0.12);color: #c084fc; border: 1px solid rgba(192,132,252,0.2); }
+.tb-deploy  { background: var(--surface-3); color: var(--text-3); border: 1px solid var(--border); }
+.ai-impact { grid-column: 1/-1; display: grid; grid-template-columns: repeat(4,1fr); gap: 0.8rem; }
+.impact-box { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem; text-align: center; transition: border-color var(--transition); }
+.impact-box:hover { border-color: var(--border-lit); }
+.impact-val { font-family: var(--font-h); font-size: 1.9rem; font-weight: 800; color: var(--blue-mid); line-height: 1; }
+.impact-desc { font-size: 0.75rem; color: var(--text-3); margin-top: 0.4rem; line-height: 1.4; }
+
+/* ═══════════════════════════════════════
+   ARTICLES
+═══════════════════════════════════════ */
+#articles { background: var(--bg); }
+.articles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+.art-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition); cursor: pointer; display: flex; flex-direction: column; }
+.art-card:hover { border-color: var(--border-lit); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,100,224,0.08); }
+.art-card.featured { grid-column: 1/-1; display: grid; grid-template-columns: 1.1fr 1fr; }
+.art-thumb { background: linear-gradient(135deg, var(--surface-3), var(--bg)); padding: 2.5rem; display: flex; align-items: center; justify-content: center; min-height: 180px; position: relative; overflow: hidden; }
+.art-thumb::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,100,224,0.1) 0%,transparent 60%); }
+.art-thumb-icon { font-size: 3.5rem; position: relative; z-index: 1; }
+.art-body { padding: 1.8rem; flex: 1; display: flex; flex-direction: column; }
+.art-tag { display: inline-block; background: rgba(0,100,224,0.1); border: 1px solid rgba(0,100,224,0.2); color: var(--blue-mid); border-radius: 6px; padding: 0.18rem 0.6rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.8rem; }
+.art-title { font-family: var(--font-h); font-size: 1.02rem; font-weight: 700; color: var(--text-1); line-height: 1.35; margin-bottom: 0.7rem; letter-spacing: -0.01em; }
+.art-card.featured .art-title { font-size: 1.25rem; }
+.art-excerpt { font-size: 0.83rem; color: var(--text-2); line-height: 1.7; flex: 1; }
+.art-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+.art-date { font-size: 0.72rem; color: var(--text-3); }
+.art-read { font-size: 0.72rem; font-weight: 700; color: var(--blue-mid); }
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+.modal-overlay { display: none; position: fixed; inset: 0; z-index: 500; background: var(--modal-bg); backdrop-filter: blur(8px); overflow-y: auto; padding: 2rem; align-items: flex-start; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: var(--surface); border: 1px solid var(--border-lit); border-radius: 20px; max-width: 780px; width: 100%; margin: auto; padding: 3rem; position: relative; animation: fadeUp 0.35s ease; }
+.modal-close { position: absolute; top: 1.5rem; right: 1.5rem; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: background var(--transition), color var(--transition); }
+.modal-close:hover { background: var(--surface-3); color: var(--text-1); }
+.modal-tag { display: inline-block; background: rgba(0,100,224,0.1); border: 1px solid rgba(0,100,224,0.2); color: var(--blue-mid); border-radius: 6px; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1rem; }
+.modal-title { font-family: var(--font-h); font-size: 1.7rem; font-weight: 800; color: var(--text-1); line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+.modal-meta { font-size: 0.8rem; color: var(--text-3); margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+.modal-content h2 { font-family: var(--font-h); font-size: 1.08rem; font-weight: 700; color: var(--text-1); margin: 2rem 0 0.6rem; letter-spacing: -0.02em; }
+.modal-content p { font-size: 0.92rem; color: var(--text-2); line-height: 1.85; margin-bottom: 1rem; }
+.modal-content strong { color: var(--text-1); }
+.modal-content ul, .modal-content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+.modal-content li { font-size: 0.92rem; color: var(--text-2); line-height: 1.8; margin-bottom: 0.3rem; }
+.modal-content blockquote { border-left: 3px solid var(--blue); padding-left: 1.2rem; margin: 1.5rem 0; font-style: italic; color: var(--text-1); font-size: 1rem; }
+/* AI Comparison Table */
+.ai-compare-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.85rem; }
+.ai-compare-table th { background: var(--surface-2); color: var(--text-1); font-weight: 700; padding: 0.7rem 1rem; text-align: left; border-bottom: 2px solid var(--border-lit); }
+.ai-compare-table td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-2); vertical-align: top; }
+.ai-compare-table tr:last-child td { border-bottom: none; }
+.ai-compare-table td:first-child { font-weight: 600; color: var(--text-1); white-space: nowrap; }
+.ai-compare-table .claude-col { color: #c084fc; }
+.ai-compare-table .chatgpt-col { color: #22C55E; }
+.ai-compare-table .gemini-col { color: #F59E0B; }
+
+/* ═══════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════ */
+#contact { background: var(--surface); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3.5rem; }
+.contact-icons { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 2rem; }
+.c-icon-btn {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
+  flex-shrink: 0; position: relative;
+}
+.c-icon-btn:hover { border-color: var(--border-lit); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,100,224,0.15); }
+.c-icon-btn svg { width: 26px; height: 26px; }
+.c-icon-btn .c-tooltip {
+  position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  background: var(--surface-3); border: 1px solid var(--border);
+  color: var(--text-1); font-size: 0.7rem; font-weight: 600;
+  white-space: nowrap; padding: 0.25rem 0.6rem; border-radius: 6px;
+  opacity: 0; pointer-events: none; transition: opacity 0.18s;
+}
+.c-icon-btn:hover .c-tooltip { opacity: 1; }
+/* keep old classes as no-op so nothing breaks */
+.c-item { display:none; }
+.c-ico,.c-label,.c-val,.c-sublabel {}
+.contact-form-wrap { display: flex; flex-direction: column; gap: 1rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.fg label { display: block; font-size: 0.72rem; font-weight: 700; color: var(--text-2); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.fg input, .fg textarea, .fg select { width: 100%; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem 1rem; font-family: var(--font-b); font-size: 0.88rem; color: var(--text-1); outline: none; transition: border-color var(--transition), background var(--transition); resize: vertical; }
+.fg input:focus, .fg textarea:focus, .fg select:focus { border-color: var(--blue); background: var(--surface-3); }
+.fg textarea { min-height: 120px; }
+.fg select option { background: var(--surface); color: var(--text-1); }
+.btn-submit { background: var(--blue); color: #fff; border: none; cursor: pointer; padding: 0.85rem 1.8rem; border-radius: 8px; font-family: var(--font-b); font-size: 0.9rem; font-weight: 700; box-shadow: 0 4px 20px rgba(0,100,224,0.28); transition: background var(--transition), transform var(--transition), box-shadow var(--transition); width: 100%; }
+.btn-submit:hover { background: var(--blue-mid); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,130,251,0.38); }
+
+/* ═══════════════════════════════════════
+   ARTICLE EXPAND
+═══════════════════════════════════════ */
+.articles-older { margin-top: 1.2rem; overflow: hidden; max-height: 0; transition: max-height 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease; opacity: 0; pointer-events: none; }
+.articles-older.open { max-height: 2000px; opacity: 1; pointer-events: auto; }
+.btn-older {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  margin: 1.5rem auto 0; padding: 0.75rem 1.8rem;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text-2); font-family: var(--font-b);
+  font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  letter-spacing: 0.01em;
+}
+.btn-older:hover { border-color: var(--border-lit); color: var(--text-1); background: var(--surface-3); }
+.btn-older .btn-older-arrow { transition: transform 0.3s ease; font-size: 0.75rem; }
+.btn-older.open .btn-older-arrow { transform: rotate(180deg); }
+
+/* ═══════════════════════════════════════
+   LIVE CHAT WIDGET
+═══════════════════════════════════════ */
+.chat-fab {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 300;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  border: none; cursor: pointer; font-size: 1.4rem;
+  box-shadow: 0 4px 24px rgba(0,100,224,0.4);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.chat-fab:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(0,130,251,0.5); background: var(--blue-mid); }
+.chat-fab .fab-pulse {
+  position: absolute; width: 100%; height: 100%; border-radius: 50%;
+  background: var(--blue); animation: fabPulse 2.5s ease-out infinite;
+}
+@keyframes fabPulse { 0%{transform:scale(1);opacity:0.6;} 70%{transform:scale(1.6);opacity:0;} 100%{opacity:0;} }
+
+.chat-window {
+  position: fixed; bottom: 5.5rem; right: 2rem; z-index: 300;
+  width: 380px; max-width: calc(100vw - 2rem);
+  background: var(--surface); border: 1px solid var(--border-lit);
+  border-radius: 20px; box-shadow: 0 16px 56px rgba(0,0,0,0.35);
+  display: flex; flex-direction: column;
+  transform: scale(0.92) translateY(16px);
+  transform-origin: bottom right;
+  opacity: 0; pointer-events: none;
+  transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), opacity 0.22s ease;
+  overflow: hidden;
+}
+.chat-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: auto; }
+
+.chat-header {
+  background: var(--blue); padding: 1rem 1.2rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  position: relative;
+}
+.chat-header::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:rgba(255,255,255,0.15); }
+.chat-avatar { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-family: var(--font-h); font-size: 0.9rem; font-weight: 800; color: #fff; flex-shrink: 0; }
+.chat-header-info { flex: 1; }
+.chat-header-name { font-family: var(--font-h); font-size: 0.9rem; font-weight: 700; color: #fff; }
+.chat-header-status { font-size: 0.72rem; color: rgba(255,255,255,0.75); display: flex; align-items: center; gap: 0.3rem; margin-top: 0.1rem; }
+.chat-status-dot { width: 6px; height: 6px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 5px #22C55E; animation: blink 2s infinite; }
+.chat-close { background: rgba(255,255,255,0.15); border: none; color: #fff; width: 28px; height: 28px; border-radius: 7px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.chat-close:hover { background: rgba(255,255,255,0.3); }
+
+.chat-messages {
+  flex: 1; padding: 1.2rem; overflow-y: auto; max-height: 320px;
+  display: flex; flex-direction: column; gap: 0.85rem;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.chat-msg { display: flex; gap: 0.6rem; align-items: flex-end; }
+.chat-msg.user { flex-direction: row-reverse; }
+.chat-msg-avatar { width: 28px; height: 28px; border-radius: 8px; background: var(--surface-3); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+.chat-msg.ai .chat-msg-avatar { background: var(--blue); color: #fff; font-family: var(--font-h); font-weight: 800; font-size: 0.65rem; }
+.chat-bubble {
+  max-width: 78%; padding: 0.7rem 0.95rem;
+  border-radius: 14px; font-size: 0.84rem; line-height: 1.55;
+}
+.chat-msg.ai .chat-bubble { background: var(--surface-2); color: var(--text-1); border-radius: 4px 14px 14px 14px; border: 1px solid var(--border); }
+.chat-msg.user .chat-bubble { background: var(--blue); color: #fff; border-radius: 14px 4px 14px 14px; }
+.chat-msg-time { font-size: 0.65rem; color: var(--text-3); margin-top: 0.2rem; text-align: center; }
+
+.chat-typing { display: flex; align-items: center; gap: 0.3rem; padding: 0.5rem 0; }
+.chat-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--text-3); animation: typingDot 1.2s ease-in-out infinite; }
+.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot { 0%,60%,100%{transform:translateY(0);opacity:0.4;} 30%{transform:translateY(-5px);opacity:1;} }
+
+.chat-suggestions { padding: 0 1.2rem 0.8rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chat-suggestion {
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--text-2); border-radius: 20px;
+  padding: 0.3rem 0.85rem; font-size: 0.75rem; font-weight: 500;
+  cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+.chat-suggestion:hover { border-color: var(--blue-mid); color: var(--blue-mid); background: rgba(0,100,224,0.06); }
+
+.chat-input-area { padding: 0.9rem 1.2rem; border-top: 1px solid var(--border); display: flex; gap: 0.6rem; align-items: flex-end; }
+.chat-input {
+  flex: 1; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.65rem 0.9rem;
+  font-family: var(--font-b); font-size: 0.86rem; color: var(--text-1);
+  outline: none; resize: none; max-height: 120px; min-height: 40px;
+  transition: border-color 0.2s;
+  field-sizing: content;
+}
+.chat-input:focus { border-color: var(--blue); }
+.chat-send {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--blue); border: none; color: #fff;
+  cursor: pointer; font-size: 0.9rem; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+}
+.chat-send:hover { background: var(--blue-mid); transform: scale(1.05); }
+.chat-send:disabled { background: var(--surface-3); cursor: not-allowed; transform: none; }
+
+/* Chat contact buttons (fallback response) */
+.chat-contact-cards { display:flex; flex-direction:column; gap:0.45rem; margin-top:0.6rem; }
+.chat-contact-btn {
+  display:flex; align-items:center; gap:0.65rem;
+  padding:0.55rem 0.85rem; border-radius:10px;
+  background:var(--surface-3); border:1px solid var(--border);
+  color:var(--text-1); text-decoration:none; font-size:0.8rem; font-weight:600;
+  transition:background 0.18s, border-color 0.18s, transform 0.15s;
+  cursor:pointer;
+}
+.chat-contact-btn:hover { background:rgba(0,100,224,0.12); border-color:var(--border-lit); transform:translateX(3px); }
+.chat-contact-btn .ccb-ico { font-size:1rem; flex-shrink:0; width:1.2rem; text-align:center; }
+.chat-contact-btn .ccb-label { font-size:0.7rem; color:var(--text-3); font-weight:500; display:block; line-height:1; margin-bottom:0.1rem; }
+.chat-contact-btn .ccb-val { font-size:0.8rem; color:var(--text-1); font-weight:600; }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+footer .fl { font-family: var(--font-h); font-weight: 700; font-size: 0.9rem; color: var(--text-1); }
+footer .fl span { color: var(--blue-mid); }
+footer .fr { font-size: 0.78rem; color: var(--text-3); }
+
+/* ═══════════════════════════════════════
+   REVEAL
+═══════════════════════════════════════ */
+.reveal { opacity:0; transform:translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ═══════════════════════════════════════
+   HIDDEN BY LANG
+═══════════════════════════════════════ */
+[data-lang="en"] .id-only { display: none !important; }
+[data-lang="id"] .en-only { display: none !important; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:960px) {
+  #hero { grid-template-columns:1fr; }
+  .hero-visual { display:none; }
+  .about-grid, .ai-layout, .contact-grid { grid-template-columns:1fr; }
+  .about-portrait-wrap { position:static; }
+  .phil-grid { grid-template-columns:1fr 1fr; }
+  .pillars { grid-template-columns:1fr 1fr; }
+  .art-card.featured { grid-template-columns:1fr; }
+  .articles-grid { grid-template-columns:1fr; }
+  .ai-impact { grid-template-columns:1fr 1fr; }
+  .form-row { grid-template-columns:1fr; }
+  .nav-links { display:none; }
+  .ai-compare-table { font-size: 0.78rem; }
+}
+@media(max-width:600px) {
+  section { padding: 4rem 5%; }
+  .phil-grid { grid-template-columns:1fr; }
+  .pillars { grid-template-columns:1fr; }
+  .modal-box { padding: 1.5rem 1.2rem; }
+  .modal-title { font-size: 1.25rem; }
+  .ai-impact { grid-template-columns:1fr 1fr; }
+  .hero-meta { gap: 1.5rem; flex-wrap: wrap; }
+  h1.hero-name { font-size: clamp(2.2rem,10vw,3rem); }
+  .s-title { font-size: clamp(1.5rem,6vw,2rem); }
+  .contact-items { gap: 0.6rem; }
+  .c-val { font-size: 0.8rem; word-break: break-all; }
+  .ai-compare-table { font-size: 0.72rem; }
+  .ai-compare-table th, .ai-compare-table td { padding: 0.5rem 0.6rem; }
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  .nav-controls { gap: 0.35rem; }
+  .nav-cta { padding: 0.38rem 0.75rem; font-size: 0.75rem !important; }
+  .lang-btn { padding: 0.35rem 0.55rem; }
+  .hv-stats { grid-template-columns: 1fr 1fr; }
+  .about-portrait { aspect-ratio: 4/3; }
+}
+@media(max-width:400px) {
+  nav { padding: 0.8rem 4%; }
+  #hero { padding: 8rem 4% 4rem; }
+  section { padding: 3.5rem 4%; }
+  .modal-box { padding: 1.2rem 1rem; }
+  .ai-impact { grid-template-columns:1fr 1fr; }
+  .hero-meta { gap: 1rem; }
+  .hm-num { font-size: 1.4rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav id="navbar">
+  <div class="nav-logo">FX <span>Agung</span> Nugroho</div>
+  <ul class="nav-links">
+    <li><a href="#about" data-i18n="nav.about">About</a></li>
+    <li><a href="#philosophy" data-i18n="nav.philosophy">Philosophy</a></li>
+    <li><a href="#ai-tools" data-i18n="nav.ai">AI & Tools</a></li>
+    <li><a href="#articles" data-i18n="nav.insights">Insights</a></li>
+  </ul>
+  <div class="nav-controls">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-id" onclick="setLang('id')">ID</button>
+    </div>
+    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
+    <a href="#contact" class="nav-cta" data-i18n="nav.connect">Connect</a>
+  </div>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-text">
+    <div class="hero-badge"><span class="badge-dot"></span><span data-i18n="hero.badge">Human Capital Development · Jakarta, Indonesia</span></div>
+    <h1 class="hero-name">FX <span class="accent">Agung</span><br><span class="thin">Nugroho</span></h1>
+    <p class="hero-tagline en-only"><strong>Learning Architect & People Developer</strong> with over a decade of experience designing systems that help people grow. and organizations scale. Bridging capability building, operational excellence, and AI-augmented work across industries.</p>
+    <p class="hero-tagline id-only"><strong>Learning Architect & People Developer</strong> dengan lebih dari satu dekade pengalaman merancang sistem yang membantu orang berkembang. dan organisasi tumbuh. Menjembatani pengembangan kapabilitas, keunggulan operasional, dan pekerjaan berbantuan AI lintas industri.</p>
+    <div class="hero-cta">
+      <a href="#about" class="btn-primary" data-i18n="hero.cta1">Learn More</a>
+      <a href="#contact" class="btn-ghost" data-i18n="hero.cta2">Let's Connect</a>
+    </div>
+    <div class="hero-meta">
+      <div class="hm-item"><div class="hm-num">10<span class="u">+</span></div><div class="hm-label" data-i18n="hero.stat1">Years in HC Dev</div></div>
+      <div class="hm-item"><div class="hm-num" style="font-size:1.1rem;letter-spacing:-0.02em;">Cross<span class="u">-Industry</span></div><div class="hm-label" data-i18n="hero.stat2">Impact</div></div>
+      <div class="hm-item"><div class="hm-num">4</div><div class="hm-label" data-i18n="hero.stat3">L&D Sub Departments</div></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div style="position:relative;">
+      <div class="hv-card">
+        <div class="hv-header">
+          <div class="hv-avatar">FX</div>
+          <div class="hv-info"><h3>FX Agung Nugroho</h3><p>Learning Architect · People Developer</p></div>
+        </div>
+        <div class="hv-chips">
+          <span class="chip">Learning Design</span><span class="chip">LMS / Moodle</span>
+          <span class="chip g">F&B · Retail · FMCG · Telco</span><span class="chip g">AI Adoption</span><span class="chip g">Org Development</span>
+        </div>
+        <div class="hv-stats">
+          <div class="hv-stat"><div class="hv-stat-val">10+</div><div class="hv-stat-label" data-i18n="hero.stat1.short">Years</div></div>
+          <div class="hv-stat"><div class="hv-stat-val">500+</div><div class="hv-stat-label" data-i18n="card.partners">Learning Partners</div></div>
+          <div class="hv-stat"><div class="hv-stat-val">4</div><div class="hv-stat-label" data-i18n="card.divisions">Sub Departments</div></div>
+          <div class="hv-stat"><div class="hv-stat-val">AI</div><div class="hv-stat-label" data-i18n="card.ai">Daily User</div></div>
+        </div>
+      </div>
+      <div class="hv-float f1"><span>🤖</span> <span data-i18n="float.ai">AI-Augmented Practitioner</span></div>
+      <div class="hv-float f2"><span>🎓</span> <span data-i18n="float.digital">Digital Learning Architect</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ABOUT ══════════════ -->
+<section id="about">
+  <div class="s-eyebrow" data-i18n="nav.about">About</div>
+  <h2 class="s-title en-only">Building the systems<br>that build people.</h2>
+  <h2 class="s-title id-only">Membangun sistem<br>yang membangun manusia.</h2>
+  <div class="about-grid">
+    <div class="about-portrait-wrap reveal">
+      <div class="about-portrait">
+        <div class="ap-initials">FX</div>
+        <div class="ap-overlay">
+          <strong>FX Agung Nugroho</strong>
+          <span>Learning Architect · F&B · Retail · Telco · Jakarta</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="about-pull en-only">"I don't just train people. I design the ecosystems where they can grow independently, regardless of the industry."</p>
+      <p class="about-pull id-only">"Saya tidak hanya melatih orang. saya merancang ekosistem di mana mereka bisa tumbuh secara mandiri, di industri mana pun."</p>
+
+      <!-- Industry strip -->
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.8rem;">
+        <span style="background:rgba(0,100,224,0.1);border:1px solid rgba(0,100,224,0.2);color:var(--blue-mid);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.75rem;font-weight:700;">🍜 F&B · Boga Group</span>
+        <span style="background:rgba(0,100,224,0.1);border:1px solid rgba(0,100,224,0.2);color:var(--blue-mid);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.75rem;font-weight:700;">🛒 Retail · Orang Tua Group</span>
+        <span style="background:rgba(0,100,224,0.1);border:1px solid rgba(0,100,224,0.2);color:var(--blue-mid);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.75rem;font-weight:700;">📦 FMCG · Orang Tua Group</span>
+        <span style="background:rgba(0,100,224,0.1);border:1px solid rgba(0,100,224,0.2);color:var(--blue-mid);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.75rem;font-weight:700;">📡 Telco · First Media · Siemens</span>
+      </div>
+
+      <p class="about-body en-only">My career in <strong>Human Capital Development</strong> spans roles from operational <strong>Trainer Brand</strong> on the floor to leading a national function across four departments: <strong>Digital Learning, Technical Kitchen, Technical Service,</strong> and <strong>Head Office HC</strong>. That ground-level starting point shapes everything I build: learning only works when it's designed for the reality people return to.</p>
+      <p class="about-body id-only">Karier saya di bidang <strong>Human Capital Development</strong> merentang dari peran operasional sebagai <strong>Trainer Brand</strong> di lapangan hingga memimpin fungsi nasional di empat departemen: <strong>Digital Learning, Technical Kitchen, Technical Service,</strong> dan <strong>Head Office HC</strong>. Titik awal di lapangan membentuk segalanya: pembelajaran hanya berhasil jika dirancang untuk realita yang orang benar-benar hadapi.</p>
+
+      <p class="about-body en-only">A network of dedicated <strong>Learning Partners</strong> drives frontline capability-building at a scale no central team could achieve alone. The real work happens at the edges, and my role is to raise the capability of the people closest to the learner.</p>
+      <p class="about-body id-only">Jaringan <strong>Learning Partner</strong> yang berdedikasi mendorong peningkatan kapabilitas lini depan pada skala yang tidak bisa dicapai satu tim pusat sendirian. Pekerjaan nyata terjadi di ujung jaringan, dan peran saya adalah meningkatkan kemampuan orang-orang yang paling dekat dengan pelajar.</p>
+
+      <p class="about-body en-only">Cross-industry exposure spanning <strong>F&amp;B · Retail &amp; FMCG · Telecommunication</strong> reinforces one conviction: <strong>effective Human Capital Development is not industry-specific.</strong> How people learn and perform under pressure follows the same fundamentals whether the context is a restaurant floor, a retail store, or a telco operations center.</p>
+      <p class="about-body id-only">Pengalaman lintas industri di bidang <strong>F&amp;B · Retail &amp; FMCG · Telekomunikasi</strong> memperkuat satu keyakinan: <strong>Human Capital Development yang efektif tidak terbatas pada industri tertentu.</strong> Cara orang belajar dan berkinerja di bawah tekanan mengikuti prinsip yang sama, baik konteksnya lantai restoran, toko retail, maupun pusat operasi telekomunikasi.</p>
+
+      <div class="pillars">
+        <div class="pillar"><div class="pillar-ico">🏗️</div><div class="pillar-t" data-i18n="pillar.1.t">Systems Builder</div><div class="pillar-d en-only">Scalable L&D ecosystems with measurable outcomes</div><div class="pillar-d id-only">Ekosistem L&D yang scalable dengan hasil terukur</div></div>
+        <div class="pillar"><div class="pillar-ico">📊</div><div class="pillar-t" data-i18n="pillar.2.t">Data-Informed</div><div class="pillar-d en-only">KPI systems that make gaps and growth visible to leaders</div><div class="pillar-d id-only">Sistem KPI yang membuat gap dan pertumbuhan terlihat jelas</div></div>
+        <div class="pillar"><div class="pillar-ico">🤝</div><div class="pillar-t" data-i18n="pillar.3.t">People-Centered</div><div class="pillar-d en-only">Every process designed around human experience, not bureaucracy</div><div class="pillar-d id-only">Setiap proses dirancang untuk pengalaman manusia, bukan birokrasi</div></div>
+        <div class="pillar"><div class="pillar-ico">🔄</div><div class="pillar-t" data-i18n="pillar.4.t">Continuous Improver</div><div class="pillar-d en-only">Lean thinking applied to how organizations learn and iterate</div><div class="pillar-d id-only">Pemikiran Lean diterapkan pada cara organisasi belajar dan beritasi</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hdiv"></div>
+
+<!-- ══════════════ PHILOSOPHY ══════════════ -->
+<section id="philosophy">
+  <div class="s-eyebrow" data-i18n="nav.philosophy">Philosophy</div>
+  <h2 class="s-title en-only">Principles that guide<br>everything I build.</h2>
+  <h2 class="s-title id-only">Prinsip yang memandu<br>semua yang saya bangun.</h2>
+  <p class="s-sub en-only">After a decade of practice across multiple industries, these are the convictions I keep returning to. regardless of org size, tools available, or sector.</p>
+  <p class="s-sub id-only">Setelah satu dekade berlatih di berbagai industri, inilah keyakinan yang selalu saya kembalikan. terlepas dari ukuran organisasi, alat yang tersedia, atau sektornya.</p>
+  <div class="phil-grid">
+    <div class="phil-card reveal" data-n="01"><div class="phil-ico">📌</div>
+      <div class="phil-t en-only">Learning is a Business Function</div><div class="phil-t id-only">Learning adalah Fungsi Bisnis</div>
+      <div class="phil-d en-only">Every program I design starts with one question: what measurable outcome does this create? Training without a clear link to performance is just activity.</div>
+      <div class="phil-d id-only">Setiap program yang saya rancang dimulai dari satu pertanyaan: hasil terukur apa yang diciptakan? Pelatihan tanpa kaitan jelas dengan kinerja hanyalah aktivitas.</div>
+      <div class="phil-q">"If it can't be measured, it can't be improved."</div>
+    </div>
+    <div class="phil-card reveal" data-n="02"><div class="phil-ico">🔄</div>
+      <div class="phil-t en-only">Iteration Over Perfection</div><div class="phil-t id-only">Iterasi di Atas Kesempurnaan</div>
+      <div class="phil-d en-only">The best programs are born from rapid cycles and honest feedback. not from months of planning. Ship, learn, improve.</div>
+      <div class="phil-d id-only">Program terbaik lahir dari siklus cepat dan umpan balik jujur. bukan dari berbulan-bulan perencanaan. Kirim, pelajari, perbaiki.</div>
+      <div class="phil-q">"Done and learning beats planned and perfect."</div>
+    </div>
+    <div class="phil-card reveal" data-n="03"><div class="phil-ico">🎯</div>
+      <div class="phil-t en-only">Context is Everything</div><div class="phil-t id-only">Konteks adalah Segalanya</div>
+      <div class="phil-d en-only">A frontline team member and a senior manager learn differently. Effective L&D respects context. it doesn't force one format on a diverse workforce.</div>
+      <div class="phil-d id-only">Anggota tim lini depan dan manajer senior belajar dengan cara yang berbeda. L&D yang efektif menghormati konteks. tidak memaksakan satu format untuk semua.</div>
+      <div class="phil-q">"One size fits none."</div>
+    </div>
+    <div class="phil-card reveal" data-n="04"><div class="phil-ico">🤖</div>
+      <div class="phil-t en-only">Technology as Enabler</div><div class="phil-t id-only">Teknologi sebagai Enabler</div>
+      <div class="phil-d en-only">From LMS to AI. the right technology frees practitioners to focus on what matters most: building judgment, trust, and genuine human capability.</div>
+      <div class="phil-d id-only">Dari LMS hingga AI. teknologi yang tepat membebaskan praktisi untuk fokus pada hal terpenting: membangun penilaian, kepercayaan, dan kapabilitas manusia sejati.</div>
+      <div class="phil-q">"Automate the routine. Humanize the important."</div>
+    </div>
+    <div class="phil-card reveal" data-n="05"><div class="phil-ico">🌐</div>
+      <div class="phil-t en-only">Scale Without Losing the Human</div><div class="phil-t id-only">Skalakan Tanpa Kehilangan Sisi Manusiawi</div>
+      <div class="phil-d en-only">Managing learning at national scale taught me that systems must scale. but the people inside them must never feel like numbers.</div>
+      <div class="phil-d id-only">Mengelola pembelajaran di skala nasional mengajarkan saya bahwa sistem harus berskala. tetapi orang-orang di dalamnya tidak boleh merasa seperti angka.</div>
+      <div class="phil-q">"Scale is a design challenge, not just a logistics one."</div>
+    </div>
+    <div class="phil-card reveal" data-n="06"><div class="phil-ico">🌱</div>
+      <div class="phil-t en-only">Develop People, Grow Business</div><div class="phil-t id-only">Kembangkan Orang, Tumbuhkan Bisnis</div>
+      <div class="phil-d en-only">When you genuinely invest in people's growth, business results follow. Not the other way around. The data consistently shows it.</div>
+      <div class="phil-d id-only">Ketika Anda benar-benar berinvestasi pada pertumbuhan orang, hasil bisnis akan mengikuti. Bukan sebaliknya. Data secara konsisten membuktikannya.</div>
+      <div class="phil-q">"Growth is contagious when it's genuine."</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ AI TOOLS ══════════════ -->
+<section id="ai-tools">
+  <div class="s-eyebrow" data-i18n="nav.ai">AI & Tools</div>
+  <h2 class="s-title en-only">AI isn't a replacement.<br>It's an amplifier.</h2>
+  <h2 class="s-title id-only">AI bukan pengganti.<br>Ia adalah amplifier.</h2>
+  <div class="ai-layout">
+    <div class="ai-story reveal">
+      <p class="en-only">I started integrating AI into my work not because of hype, but out of genuine necessity. Overseeing multiple divisions and a distributed network of learners, my bandwidth was always the bottleneck. AI helped me <strong>think more clearly, move faster, and produce more</strong>. without sacrificing the depth that people development requires.</p>
+      <p class="id-only">Saya mulai mengintegrasikan AI ke dalam pekerjaan saya bukan karena tren, tetapi karena kebutuhan nyata. Mengawasi beberapa divisi dan jaringan pelajar yang tersebar, bandwidth saya selalu menjadi hambatan. AI membantu saya <strong>berpikir lebih jernih, bergerak lebih cepat, dan menghasilkan lebih banyak</strong>. tanpa mengorbankan kedalaman yang dibutuhkan pengembangan manusia.</p>
+      <p class="en-only">The diversity of tools I use reflects a deliberate strategy: <strong>different AI systems have different strengths</strong>, and the real skill is knowing which to reach for and when. Most importantly: <strong>I don't outsource decisions to AI.</strong> I use it to expand the range of what I can explore and create. so decisions are faster and better informed.</p>
+      <p class="id-only">Keragaman alat yang saya gunakan mencerminkan strategi yang disengaja: <strong>sistem AI yang berbeda memiliki kekuatan yang berbeda</strong>, dan keahlian sesungguhnya adalah mengetahui mana yang harus digunakan dan kapan. Yang terpenting: <strong>saya tidak menyerahkan keputusan kepada AI.</strong> Saya menggunakannya untuk memperluas jangkauan eksplorasi. sehingga keputusan lebih cepat dan lebih terinformasi.</p>
+      <p class="en-only">This mindset is also something I <strong>actively model for the teams I develop.</strong> AI literacy is becoming a core professional competency. and helping people learn alongside technology is one of the most impactful things L&D can do right now.</p>
+      <p class="id-only">Pola pikir ini juga sesuatu yang saya <strong>aktif contohkan untuk tim yang saya kembangkan.</strong> Literasi AI semakin menjadi kompetensi profesional inti. dan membantu orang belajar bersama teknologi adalah salah satu hal paling berdampak yang bisa dilakukan L&D saat ini.</p>
+      <div class="ai-highlight">
+        <p class="en-only">"AI gives me the ability to have an analyst, instructional designer, systems architect, and writing partner. all in a single working session."</p>
+        <p class="id-only">"AI memberi saya kemampuan untuk memiliki analis, instructional designer, arsitek sistem, dan mitra menulis. semuanya dalam satu sesi kerja."</p>
+        <cite>— FX Agung Nugroho</cite>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="tools-list">
+        <div class="tool-item"><span class="tool-emo">🤖</span><div class="tool-info"><div class="tool-n">Claude (Anthropic)</div><div class="tool-u en-only">Strategic thinking, deep analysis, instructional design</div><div class="tool-u id-only">Pemikiran strategis, analisis mendalam, desain instruksional</div></div><span class="tool-badge tb-daily">Daily</span></div>
+        <div class="tool-item"><span class="tool-emo">💎</span><div class="tool-info"><div class="tool-n">Gemini (Google)</div><div class="tool-u en-only">Research synthesis, content ideation, integrated workflows</div><div class="tool-u id-only">Sintesis riset, ideasi konten, alur kerja terintegrasi</div></div><span class="tool-badge tb-daily">Daily</span></div>
+        <div class="tool-item"><span class="tool-emo">💬</span><div class="tool-info"><div class="tool-n">ChatGPT (OpenAI)</div><div class="tool-u en-only">Brainstorming, rapid drafting, iteration</div><div class="tool-u id-only">Brainstorming, drafting cepat, iterasi</div></div><span class="tool-badge tb-regular">Regular</span></div>
+        <div class="tool-item"><span class="tool-emo">📓</span><div class="tool-info"><div class="tool-n">NotebookLM (Google)</div><div class="tool-u en-only">Research synthesis, source-grounded analysis, knowledge organization</div><div class="tool-u id-only">Sintesis riset berbasis sumber, organisasi pengetahuan</div></div><span class="tool-badge tb-weekly">Weekly</span></div>
+        <div class="tool-item"><span class="tool-emo">🔬</span><div class="tool-info"><div class="tool-n">OpenClaw</div><div class="tool-u en-only">Recently adopted. actively exploring its capabilities</div><div class="tool-u id-only">Baru diadopsi. sedang aktif menjelajahi kemampuannya</div></div><span class="tool-badge tb-new">Exploring</span></div>
+        <div class="tool-item"><span class="tool-emo">📚</span><div class="tool-info"><div class="tool-n">Moodle LMS</div><div class="tool-u en-only">Digital learning delivery, course management, learner analytics</div><div class="tool-u id-only">Pengiriman pembelajaran digital, manajemen kursus, analitik pelajar</div></div><span class="tool-badge tb-deploy">Deployed</span></div>
+        <div class="tool-item"><span class="tool-emo">🥽</span><div class="tool-info"><div class="tool-n">VR Learning</div><div class="tool-u en-only">Immersive simulation for technical and operational training</div><div class="tool-u id-only">Simulasi imersif untuk pelatihan teknis dan operasional</div></div><span class="tool-badge tb-deploy">Deployed</span></div>
+      </div>
+    </div>
+    <div class="ai-impact reveal">
+      <div class="impact-box"><div class="impact-val">10×</div><div class="impact-desc en-only">Speed increase in training material production</div><div class="impact-desc id-only">Peningkatan kecepatan produksi materi training</div></div>
+      <div class="impact-box"><div class="impact-val">↓70%</div><div class="impact-desc en-only">Time spent on first drafts and initial research</div><div class="impact-desc id-only">Waktu untuk draft pertama dan riset awal</div></div>
+      <div class="impact-box"><div class="impact-val">↑</div><div class="impact-desc en-only">Output quality and depth of analysis per session</div><div class="impact-desc id-only">Kualitas output dan kedalaman analisis per sesi</div></div>
+      <div class="impact-box"><div class="impact-val">∞</div><div class="impact-desc en-only">Ideas explored before committing to a direction</div><div class="impact-desc id-only">Ide yang dijelajahi sebelum memilih arah</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="hdiv"></div>
+
+<!-- ══════════════ ARTICLES ══════════════ -->
+<section id="articles">
+  <div class="s-eyebrow" data-i18n="nav.insights">Insights</div>
+  <h2 class="s-title en-only">Thinking out loud<br>about HC Dev and technology.</h2>
+  <h2 class="s-title id-only">Refleksi terbuka<br>tentang HC Dev dan teknologi.</h2>
+  <p class="s-sub en-only">Practical reflections from real work. Not theory for theory's sake.</p>
+  <p class="s-sub id-only">Refleksi praktis dari pekerjaan nyata. Bukan teori demi teori.</p>
+  <div class="articles-grid">
+
+    <!-- 1: 18 Feb 2026 (LATEST, FEATURED) -->
+    <div class="art-card featured reveal" onclick="openModal('compare')">
+      <div class="art-thumb"><div class="art-thumb-icon">⚔️</div></div>
+      <div class="art-body">
+        <span class="art-tag">AI · Claude · ChatGPT · Gemini</span>
+        <div class="art-title en-only">Claude vs ChatGPT vs Gemini: How Each AI Fits Into My HC Dev Ecosystem</div>
+        <div class="art-title id-only">Claude vs ChatGPT vs Gemini: Bagaimana Masing-masing AI Masuk ke Ekosistem HC Dev Saya</div>
+        <div class="art-excerpt en-only">I've been using all three daily for over a year. Not as rivals, but as different instruments in the same orchestra. An honest breakdown of where each one genuinely shines.</div>
+        <div class="art-excerpt id-only">Saya telah menggunakan ketiganya setiap hari selama lebih dari setahun. Bukan sebagai rival, melainkan sebagai instrumen berbeda. Analisis jujur di mana masing-masing benar-benar unggul.</div>
+        <div class="art-footer"><span class="art-date">18 Feb 2026 · 9 min read</span><span class="art-read en-only">Read Article →</span><span class="art-read id-only">Baca Artikel →</span></div>
+      </div>
+    </div>
+
+    <!-- 2: 3 Feb 2026 -->
+    <div class="art-card reveal" onclick="openModal('scale')">
+      <div class="art-thumb" style="min-height:130px;"><div class="art-thumb-icon">🌐</div></div>
+      <div class="art-body">
+        <span class="art-tag">Operations · Scale</span>
+        <div class="art-title en-only">Managing a Nationwide Learning Network: What Scale Taught Me About Trust</div>
+        <div class="art-title id-only">Mengelola Jaringan Pembelajaran Nasional: Apa yang Skala Ajarkan Tentang Kepercayaan</div>
+        <div class="art-excerpt en-only">When your learning system spans hundreds of locations, control becomes the enemy of consistency. Here's what actually works.</div>
+        <div class="art-excerpt id-only">Ketika sistem pembelajaran Anda mencakup ratusan lokasi, kontrol menjadi musuh konsistensi. Inilah yang sebenarnya berhasil.</div>
+        <div class="art-footer"><span class="art-date">3 Feb 2026 · 5 min read</span><span class="art-read en-only">Read Article →</span><span class="art-read id-only">Baca Artikel →</span></div>
+      </div>
+    </div>
+
+    <!-- 3: 22 Jan 2026 -->
+    <div class="art-card reveal" onclick="openModal('ai-ld')">
+      <div class="art-thumb" style="min-height:130px;"><div class="art-thumb-icon">🤖</div></div>
+      <div class="art-body">
+        <span class="art-tag">AI · HC Dev Strategy</span>
+        <div class="art-title en-only">Working with AI Without Losing the Human Element</div>
+        <div class="art-title id-only">Bekerja dengan AI Tanpa Kehilangan Elemen Manusiawi</div>
+        <div class="art-excerpt en-only">A practitioner's honest take on where AI genuinely helps in HC Dev, where it falls short, and how to build a team that uses it well.</div>
+        <div class="art-excerpt id-only">Pandangan jujur seorang praktisi tentang di mana AI benar-benar membantu dalam HC Dev, di mana ia kurang, dan cara membangun tim yang menggunakannya dengan baik.</div>
+        <div class="art-footer"><span class="art-date">22 Jan 2026 · 6 min read</span><span class="art-read en-only">Read Article →</span><span class="art-read id-only">Baca Artikel →</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- OLDER ARTICLES (hidden - Moodle article pending Fx's rewrite) -->
+  <div class="articles-older" id="articles-older">
+    <div class="articles-grid" style="margin-top:0;">
+
+      <!-- Moodle: 7 Mar 2026 — pending rewrite -->
+      <div class="art-card" onclick="openModal('lms')" style="grid-column:1/-1;">
+        <div class="art-thumb" style="min-height:110px;"><div class="art-thumb-icon">📚</div></div>
+        <div class="art-body">
+          <span class="art-tag">LMS · Moodle</span>
+          <div class="art-title en-only">From Admin Tool to Learning Engine: How We Reimagined Moodle</div>
+          <div class="art-title id-only">Dari Admin Tool ke Learning Engine: Bagaimana Kami Merombak Moodle</div>
+          <div class="art-excerpt en-only">How we transformed Moodle from a static repository into an active, data-driven learning system. And what we learned about what "digital learning" means at scale.</div>
+          <div class="art-excerpt id-only">Bagaimana kami mengubah Moodle dari repositori statis menjadi sistem pembelajaran aktif berbasis data. Dan apa yang kami pelajari tentang makna "digital learning" di skala besar.</div>
+          <div class="art-footer"><span class="art-date">7 Mar 2026 · 8 min read</span><span class="art-read en-only">Read Article →</span><span class="art-read id-only">Baca Artikel →</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Expand button -->
+  <button class="btn-older" id="btn-older" onclick="toggleOlderArticles()">
+    <span class="en-only" id="btn-older-text-en">Earlier Articles</span>
+    <span class="id-only" id="btn-older-text-id">Artikel Sebelumnya</span>
+    <span class="btn-older-arrow">▼</span>
+  </button>
+
+</section>
+
+<!-- ══════════════ CONTACT ══════════════ -->
+<section id="contact">
+  <div class="s-eyebrow" data-i18n="nav.connect">Connect</div>
+  <h2 class="s-title en-only">Let's talk about<br>learning and growth.</h2>
+  <h2 class="s-title id-only">Mari bicara tentang<br>pembelajaran dan pertumbuhan.</h2>
+  <div class="contact-grid">
+    <div class="reveal">
+      <p class="s-sub en-only">Whether you want to discuss L&D strategy, share perspectives on AI in the workplace, explore collaboration, or simply connect professionally. I'm always open to a good conversation.</p>
+      <p class="s-sub id-only">Apakah Anda ingin mendiskusikan strategi L&D, berbagi perspektif tentang AI di tempat kerja, menjelajahi kolaborasi, atau sekadar terhubung secara profesional. saya selalu terbuka untuk percakapan yang baik.</p>
+      <div class="contact-icons">
+
+        <!-- Personal Email (Gmail/Outlook style) -->
+        <a href="mailto:fxagungn@outlook.com" class="c-icon-btn">
+          <span class="c-tooltip en-only">Personal Email</span>
+          <span class="c-tooltip id-only">Email Pribadi</span>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="#0078D4"/>
+            <path d="M4 7.5C4 6.672 4.672 6 5.5 6h13c.828 0 1.5.672 1.5 1.5v9c0 .828-.672 1.5-1.5 1.5h-13C4.672 18 4 17.328 4 16.5v-9z" fill="#0078D4"/>
+            <path d="M4 8l8 5.5L20 8" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M5.5 6h13c.828 0 1.5.672 1.5 1.5L12 13.5 4 7.5C4 6.672 4.672 6 5.5 6z" fill="#1CA0F2" opacity="0.5"/>
+          </svg>
+        </a>
+
+        <!-- Work Email — Boga Group "B" mark -->
+        <a href="mailto:agung.nugroho@boga.co.id" class="c-icon-btn">
+          <span class="c-tooltip en-only">Work Email</span>
+          <span class="c-tooltip id-only">Email Kantor</span>
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" rx="14" fill="#C0272D"/>
+            <text x="28" y="38" font-family="Georgia,serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">B</text>
+          </svg>
+        </a>
+
+        <!-- WhatsApp -->
+        <a href="https://wa.me/6281911152074" target="_blank" rel="noopener" class="c-icon-btn">
+          <span class="c-tooltip">WhatsApp</span>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#25D366"/>
+            <path d="M12 3.75A8.25 8.25 0 0 0 5.03 16.04L3.75 20.25l4.32-1.25A8.25 8.25 0 1 0 12 3.75z" fill="white"/>
+            <path d="M9.5 8.5c.15-.35.65-1.25 1.1-1.25.2 0 .35.05.5.1.2.1.3.25.5.7l.5 1.2c.1.25.05.5-.1.7l-.4.45c-.05.05-.05.15 0 .2.3.5.7 1 1.15 1.4.45.4.95.75 1.5 1 .1.05.2 0 .25-.05l.5-.55c.2-.2.5-.3.75-.15l1.2.6c.45.2.6.35.65.55.1.45-.2 1.25-.5 1.5-.5.4-1.2.55-1.85.35a10.5 10.5 0 0 1-5.25-4.5c-.4-.65-.6-1.5-.6-2.25z" fill="#25D366"/>
+          </svg>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="https://linkedin.com/in/fxagungn" target="_blank" rel="noopener" class="c-icon-btn">
+          <span class="c-tooltip">LinkedIn</span>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="#0A66C2"/>
+            <path d="M7.5 9.5H5.5V18h2V9.5zM6.5 8.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zM18.5 18h-2v-4.25c0-1-.4-1.75-1.35-1.75-.85 0-1.35.6-1.55 1.15-.1.2-.1.45-.1.7V18h-2s.025-7.5 0-8.5h2v1.25c.3-.45.8-1.25 1.95-1.25 1.45 0 2.55 1 2.55 3.1V18z" fill="white"/>
+          </svg>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://instagram.com/fxagungn" target="_blank" rel="noopener" class="c-icon-btn">
+          <span class="c-tooltip">@fxagungn</span>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="ig-grad" cx="30%" cy="107%" r="150%">
+                <stop offset="0%" stop-color="#ffd600"/>
+                <stop offset="30%" stop-color="#ff6930"/>
+                <stop offset="60%" stop-color="#e0408f"/>
+                <stop offset="100%" stop-color="#8a3ab9"/>
+              </radialGradient>
+            </defs>
+            <rect width="24" height="24" rx="6" fill="url(#ig-grad)"/>
+            <rect x="6" y="6" width="12" height="12" rx="3.5" fill="none" stroke="white" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="3" fill="none" stroke="white" stroke-width="1.5"/>
+            <circle cx="16.2" cy="7.8" r="0.9" fill="white"/>
+          </svg>
+        </a>
+
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="contact-form-wrap">
+        <div class="form-row">
+          <div class="fg"><label data-i18n="form.name">Name</label><input type="text" data-i18n-ph="form.name.ph" placeholder="Your full name"/></div>
+          <div class="fg"><label>Email</label><input type="email" placeholder="your@email.com"/></div>
+        </div>
+        <div class="fg">
+          <label data-i18n="form.topic">Topic</label>
+          <select>
+            <option value="" data-i18n="form.topic.ph">Select a topic...</option>
+            <option data-i18n="form.opt1">L&D Strategy Discussion</option>
+            <option data-i18n="form.opt2">AI in the Workplace</option>
+            <option data-i18n="form.opt3">Collaboration / Partnership</option>
+            <option data-i18n="form.opt4">Speaking / Facilitation</option>
+            <option data-i18n="form.opt5">Just Connecting</option>
+          </select>
+        </div>
+        <div class="fg"><label data-i18n="form.msg">Message</label><textarea data-i18n-ph="form.msg.ph" placeholder="What would you like to discuss?"></textarea></div>
+        <button class="btn-submit" id="submitBtn" data-i18n="form.send">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fl">FX <span>Agung</span> Nugroho</div>
+  <div class="fr en-only">Built with ❤️ and supported by AI</div>
+  <div class="fr id-only">Dibangun dengan ❤️ dan dukungan AI</div>
+</footer>
+
+<!-- ══════════════ LIVE CHAT ══════════════ -->
+<!-- FAB Button -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Chat with AI about FX Agung">
+  <span class="fab-pulse"></span>
+  <span id="fabIcon">💬</span>
+</button>
+
+<!-- Chat Window -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">FX</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">Ask about FX Agung</div>
+      <div class="chat-header-status"><span class="chat-status-dot"></span><span id="chatStatusText">AI Assistant · Online</span></div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <!-- Messages rendered by JS -->
+  </div>
+  <div class="chat-suggestions" id="chatSuggestions">
+    <button class="chat-suggestion" onclick="sendSuggestion(this)">Background &amp; experience?</button>
+    <button class="chat-suggestion" onclick="sendSuggestion(this)">AI tools yang dipakai?</button>
+    <button class="chat-suggestion" onclick="sendSuggestion(this)">How to collaborate?</button>
+    <button class="chat-suggestion" onclick="sendSuggestion(this)">Filosofi L&amp;D-nya apa?</button>
+  </div>
+  <div class="chat-input-area">
+    <textarea class="chat-input" id="chatInput" placeholder="Ask anything about FX Agung..." rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"></textarea>
+    <button class="chat-send" id="chatSend" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODALS
+══════════════════════════════════════ -->
+
+<!-- MODAL: AI COMPARE -->
+<div class="modal-overlay" id="modal-compare" onclick="closeOut(event,'modal-compare')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-compare')">✕</button>
+    <span class="modal-tag">AI · Claude · ChatGPT · Gemini</span>
+
+    <!-- EN version -->
+    <div class="en-only">
+      <h2 class="modal-title">Claude vs ChatGPT vs Gemini: How Each AI Fits Into My L&D Ecosystem</h2>
+      <div class="modal-meta">FX Agung Nugroho · 18 Februari 2026 · 9 menit baca</div>
+      <div class="modal-content">
+        <p>I want to start by saying something that most AI comparisons skip: these tools are not competitors in my daily work. They're collaborators with different personalities. Over more than a year of using all three every day in an L&D context, I've developed a clear sense of when to reach for each one. and that clarity has made me significantly more effective.</p>
+        <p>This isn't a technical benchmark. It's a practitioner's field report.</p>
+        <h2>The Quick Summary</h2>
+        <table class="ai-compare-table">
+          <tr><th>L&D Task</th><th class="claude-col">Claude</th><th class="chatgpt-col">ChatGPT</th><th class="gemini-col">Gemini</th></tr>
+          <tr><td>Long-form curriculum design</td><td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐</td></tr>
+          <tr><td>Quick brainstorming / ideation</td><td>⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐⭐</td></tr>
+          <tr><td>Document & report writing</td><td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐</td></tr>
+          <tr><td>Research synthesis</td><td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐⭐</td></tr>
+          <tr><td>Google Workspace integration</td><td>⭐</td><td>⭐</td><td>⭐⭐⭐</td></tr>
+          <tr><td>Creative content & scenarios</td><td>⭐⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐</td></tr>
+          <tr><td>Nuanced strategic thinking</td><td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐</td></tr>
+          <tr><td>Multi-modal (image/voice)</td><td>⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐⭐</td></tr>
+        </table>
+        <h2>Claude: My Primary Thinking Partner</h2>
+        <p>Claude is where I go when the work requires depth. Designing a multi-week leadership development program, writing a 20-slide instructional framework with full speaker notes, building a KPI monitoring system, drafting strategic proposals for key decision-makers. these all live in Claude.</p>
+        <p>What sets it apart for L&D work is <strong>the quality of its reasoning under constraint</strong>. When I give Claude complex context. "design a training module for operational managers who are resistant to change, in a multi-brand F&B environment, using Kirkpatrick Level 2-3 evaluation". it doesn't just execute the request. It thinks through it. The output feels like it came from someone who understood the problem, not just the prompt.</p>
+        <p>Claude also has a quality I deeply value: <strong>it pushes back when something doesn't make sense.</strong> It has raised blind spots in my program designs that I hadn't considered. and it consistently produces strategic documents and proposals that resonate with key stakeholders. That intellectual honesty is rare and genuinely useful in a thinking partner.</p>
+        <blockquote>"Claude doesn't just answer my questions. It helps me figure out if I'm asking the right ones."</blockquote>
+        <h2>ChatGPT: My Creative Sprinting Tool</h2>
+        <p>When I need to generate a lot of options fast. ten icebreaker ideas for a leadership program, five different framings for a difficult message, rapid variations on a training activity. ChatGPT is my first call. Its strength is creative velocity. It moves quickly and broadly, which is exactly what you need during the divergent thinking phase of content design.</p>
+        <p>It's also the tool my team is most comfortable with, which matters when I'm trying to model AI adoption. Familiarity lowers the friction of getting started, and ChatGPT has done more than any other tool to normalize AI use among non-technical professionals.</p>
+        <p>Where I find it less reliable: sustained, nuanced work that requires holding a lot of context. It can drift. For a two-page email, perfect. For a 20-page instructional framework, I'll use Claude.</p>
+        <h2>Gemini: My Research & Google-Connected Workhorse</h2>
+        <p>Gemini earns its place primarily because of two things: its integration with the Google ecosystem, and its strength in research synthesis. When I need to pull together information from multiple sources and surface a clear picture quickly, Gemini is fast and reliable. It's also significantly more capable when working with content that lives in Google Drive, Gmail, or Google Docs. which is where a large portion of our L&D documentation lives.</p>
+        <p>For daily operational research. "what are current best practices for onboarding programs in distributed workforces?". Gemini gives me a solid first pass that I can then take deeper in Claude. I think of it as my intelligence gathering layer.</p>
+        <h2>The Real Lesson: It's an Ecosystem, Not a Competition</h2>
+        <p>The practitioners I see struggling with AI are usually those who picked one tool and are trying to make it do everything. The ones who are thriving have built a workflow where different tools play different roles. and they've taken the time to understand what each one is actually good at.</p>
+        <p>In my workflow: I use Gemini to gather and orient, ChatGPT to diverge and generate, and Claude to synthesize, deepen, and produce. Not because one is "better". but because each one makes a different part of my work better.</p>
+        <p>That's what AI literacy actually looks like in practice. Not picking a winner. Building a team.</p>
+      </div>
+    </div>
+
+    <!-- ID version -->
+    <div class="id-only">
+      <h2 class="modal-title">Claude vs ChatGPT vs Gemini: Bagaimana Masing-masing AI Masuk ke Ekosistem L&D Saya</h2>
+      <div class="modal-meta">FX Agung Nugroho · 18 Februari 2026 · 9 menit baca</div>
+      <div class="modal-content">
+        <p>Saya ingin memulai dengan sesuatu yang sering dilewatkan dalam perbandingan AI: alat-alat ini bukanlah pesaing dalam pekerjaan saya sehari-hari. Mereka adalah kolaborator dengan kepribadian berbeda. Setelah lebih dari setahun menggunakan ketiganya setiap hari dalam konteks L&D, saya memiliki gambaran jelas tentang kapan menggunakan masing-masing. dan kejelasan ini membuat saya jauh lebih efektif.</p>
+        <p>Ini bukan benchmark teknis. Ini adalah laporan lapangan dari seorang praktisi.</p>
+        <h2>Ringkasan Cepat</h2>
+        <table class="ai-compare-table">
+          <tr><th>Tugas L&D</th><th class="claude-col">Claude</th><th class="chatgpt-col">ChatGPT</th><th class="gemini-col">Gemini</th></tr>
+          <tr><td>Desain kurikulum panjang</td><td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐</td></tr>
+          <tr><td>Brainstorming / ideasi cepat</td><td>⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐⭐</td></tr>
+          <tr><td>Penulisan dokumen & laporan</td><td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐</td></tr>
+          <tr><td>Sintesis riset</td><td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐⭐</td></tr>
+          <tr><td>Integrasi Google Workspace</td><td>⭐</td><td>⭐</td><td>⭐⭐⭐</td></tr>
+          <tr><td>Konten kreatif & skenario</td><td>⭐⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐</td></tr>
+          <tr><td>Pemikiran strategis mendalam</td><td>⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐</td></tr>
+          <tr><td>Multi-modal (gambar/suara)</td><td>⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐⭐</td></tr>
+        </table>
+        <h2>Claude: Mitra Berpikir Utama Saya</h2>
+        <p>Claude adalah tempat saya pergi ketika pekerjaan membutuhkan kedalaman. Merancang program pengembangan kepemimpinan multi-minggu, menulis kerangka instruksional 20 slide dengan catatan pembicara lengkap, membangun sistem pemantauan KPI, menyusun proposal strategis untuk Direktur HC. semuanya ada di Claude.</p>
+        <p>Yang membedakannya untuk pekerjaan L&D adalah <strong>kualitas penalarannya di bawah kendala</strong>. Ketika saya memberi Claude konteks yang kompleks, ia tidak hanya mengeksekusi permintaan. Ia memikirkannya. Output terasa seperti datang dari seseorang yang memahami masalahnya, bukan hanya promptnya. Ia juga secara konsisten menghasilkan dokumen strategis dan proposal yang diterima baik oleh pemangku kepentingan senior.</p>
+        <blockquote>"Claude tidak hanya menjawab pertanyaan saya. Ia membantu saya mencari tahu apakah saya mengajukan pertanyaan yang tepat."</blockquote>
+        <h2>ChatGPT: Alat Sprint Kreatif Saya</h2>
+        <p>Ketika saya perlu menghasilkan banyak opsi dengan cepat. sepuluh ide icebreaker, lima framing berbeda untuk pesan yang sulit, variasi cepat pada aktivitas training. ChatGPT adalah pilihan pertama. Kekuatannya adalah kecepatan kreatif. Ia bergerak cepat dan luas, tepat untuk fase berpikir divergen dalam desain konten.</p>
+        <p>Ia juga alat yang paling nyaman digunakan tim saya, yang penting ketika saya mencoba memodelkan adopsi AI. Familiaritas menurunkan hambatan untuk memulai, dan ChatGPT telah melakukan lebih banyak dari alat lain mana pun untuk menormalkan penggunaan AI di kalangan profesional non-teknis.</p>
+        <h2>Gemini: Mesin Riset & Integrasi Google Saya</h2>
+        <p>Gemini mendapat tempat terutama karena dua hal: integrasinya dengan ekosistem Google, dan kekuatannya dalam sintesis riset. Saat perlu menarik informasi dari berbagai sumber dengan cepat, Gemini cepat dan andal. Ia juga jauh lebih mampu saat bekerja dengan konten di Google Drive, Gmail, atau Google Docs. di mana sebagian besar dokumentasi L&D kami berada.</p>
+        <h2>Pelajaran Nyata: Ini Ekosistem, Bukan Kompetisi</h2>
+        <p>Praktisi yang berjuang dengan AI biasanya mereka yang memilih satu alat dan mencoba membuatnya melakukan segalanya. Yang berhasil telah membangun alur kerja di mana alat berbeda memainkan peran berbeda.</p>
+        <p>Dalam alur kerja saya: Gemini untuk mengumpulkan dan mengorientasi, ChatGPT untuk divergen dan menghasilkan, Claude untuk mensintesis, memperdalam, dan memproduksi. Bukan karena satu "lebih baik". tetapi karena masing-masing membuat bagian berbeda dari pekerjaan saya lebih baik. Itulah literasi AI yang sesungguhnya. Bukan memilih pemenang. Membangun tim.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: LMS -->
+<div class="modal-overlay" id="modal-lms" onclick="closeOut(event,'modal-lms')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-lms')">✕</button>
+    <span class="modal-tag">LMS · Moodle · Digital Learning</span>
+    <div class="en-only">
+      <h2 class="modal-title">From Admin Tool to Learning Engine: How We Reimagined Moodle</h2>
+      <div class="modal-meta">FX Agung Nugroho · 7 March 2026 · 8 min read</div>
+      <div class="modal-content">
+        <p>When I first inherited our Moodle setup, it was doing exactly what most LMS platforms do in their early stages: storing files and logging completions. PDFs uploaded. Quizzes ticked. Certificates generated. Nobody was actually learning more because of it. they were just getting through it.</p>
+        <p>That's the quiet failure mode of most digital learning implementations: the system works perfectly, but it doesn't change behavior. And in an organization spanning hundreds of operational locations, a system that doesn't change behavior at scale is just expensive overhead.</p>
+        <h2>The Diagnosis: Three Root Problems</h2>
+        <ul><li><strong>Content disconnected from context.</strong> Modules designed in isolation from real work environments.</li><li><strong>Completion was the only metric.</strong> No visibility into skill gaps. No feedback loop for improvement.</li><li><strong>The platform felt like homework.</strong> Learners accessed Moodle when they had to. not because they found value.</li></ul>
+        <h2>What We Changed</h2>
+        <blockquote>"The platform is not the learning. It's the infrastructure. We had to stop optimizing the infrastructure and start optimizing the experience."</blockquote>
+        <p>We reorganized the course library around <strong>job roles and performance outcomes</strong>. Built a <strong>custom reporting layer</strong> connecting learning activity to on-the-job performance indicators. Redesigned the learner interface with a mobile-first approach and introduced scenario-based assessments that mirrored real situations.</p>
+        <h2>The Harder Lesson</h2>
+        <p>The most significant obstacle wasn't technical. It was behavioral. Getting trainers to think in outcomes, managers to see themselves as learning enablers, and learners to view the platform as a growth tool. that required sustained change management no platform update could automate.</p>
+        <p>The platform is infrastructure. The culture is the product. The question isn't "are we using it?". it's "is it making people measurably better at their jobs?"</p>
+      </div>
+    </div>
+    <div class="id-only">
+      <h2 class="modal-title">Dari Admin Tool ke Learning Engine: Bagaimana Kami Merombak Moodle</h2>
+      <div class="modal-meta">FX Agung Nugroho · 7 Maret 2026 · 8 menit baca</div>
+      <div class="modal-content">
+        <p>Ketika saya pertama kali mewarisi pengaturan Moodle kami, platform itu melakukan apa yang kebanyakan LMS lakukan di tahap awal: menyimpan file dan mencatat penyelesaian. PDF diunggah. Kuis dicentang. Sertifikat dihasilkan. Tidak ada yang benar-benar belajar lebih karena itu. mereka hanya menyelesaikannya.</p>
+        <p>Itulah mode kegagalan tersembunyi dari sebagian besar implementasi pembelajaran digital: sistem bekerja dengan sempurna, tetapi tidak mengubah perilaku.</p>
+        <h2>Diagnosis: Tiga Masalah Akar</h2>
+        <ul><li><strong>Konten terputus dari konteks.</strong> Modul dirancang terpisah dari lingkungan kerja nyata.</li><li><strong>Penyelesaian adalah satu-satunya metrik.</strong> Tidak ada visibilitas ke kesenjangan keterampilan.</li><li><strong>Platform terasa seperti PR.</strong> Pelajar mengakses Moodle ketika mereka harus. bukan karena mereka menemukan nilai.</li></ul>
+        <h2>Yang Kami Ubah</h2>
+        <blockquote>"Platform bukan pembelajaran. Ia adalah infrastruktur. Kami harus berhenti mengoptimalkan infrastruktur dan mulai mengoptimalkan pengalaman."</blockquote>
+        <p>Kami mereorganisasi perpustakaan kursus di sekitar <strong>peran pekerjaan dan hasil kinerja</strong>. Membangun <strong>lapisan pelaporan kustom</strong> yang menghubungkan aktivitas pembelajaran dengan indikator kinerja di tempat kerja. Merancang ulang antarmuka pelajar dengan pendekatan mobile-first.</p>
+        <h2>Pelajaran yang Lebih Sulit</h2>
+        <p>Hambatan terbesar bukan teknis. Melainkan perilaku. Membuat trainer berpikir dalam hasil, manajer melihat diri sebagai learning enabler, dan pelajar melihat platform sebagai alat pertumbuhan. itu membutuhkan manajemen perubahan yang tidak bisa diotomatiskan oleh pembaruan platform apapun.</p>
+        <p>Platform adalah infrastruktur. Budaya adalah produknya.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: AI & L&D -->
+<div class="modal-overlay" id="modal-ai-ld" onclick="closeOut(event,'modal-ai-ld')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-ai-ld')">✕</button>
+    <span class="modal-tag">AI · L&D Strategy</span>
+    <div class="en-only">
+      <h2 class="modal-title">Working with AI Without Losing the Human Element</h2>
+      <div class="modal-meta">FX Agung Nugroho · 22 January 2026 · 6 min read</div>
+      <div class="modal-content">
+        <p>The honest version of this starts with an admission: when I first began using AI tools regularly, I was looking for shortcuts. What I found was something more interesting. a forcing function for clearer thinking.</p>
+        <h2>Where AI Genuinely Helps</h2>
+        <p><strong>First-draft generation.</strong> Curriculum outlines, training scripts, assessment frameworks. AI reduces the time-to-first-draft by an order of magnitude. It removes the blank page problem.</p>
+        <p><strong>Perspective expansion.</strong> I now use AI to challenge my assumptions before I finalize any design. "What would a skeptical learner say about this module?". these prompts surface blind spots that would otherwise require hours of stakeholder interviews.</p>
+        <p><strong>Documentation at scale.</strong> L&D teams are chronically under-resourced for documentation. AI enables higher-quality outputs without expanding headcount.</p>
+        <h2>Where AI Falls Short</h2>
+        <p>AI cannot replace the relational work of L&D. It cannot read the emotional undercurrent in a coaching session. It cannot build the credibility that comes from a trainer who has done the job they're training others for. It cannot design the trust that makes people willing to be vulnerable about their development gaps.</p>
+        <h2>Building an AI-Literate Team</h2>
+        <p>The real opportunity: not just adopting AI yourself, but building <strong>organizational AI literacy</strong> as a core capability. Make AI adoption safe to experiment with. The mindset you want is "always ask whether AI could help here. and always ask whether the human element is still present where it needs to be."</p>
+      </div>
+    </div>
+    <div class="id-only">
+      <h2 class="modal-title">Bekerja dengan AI Tanpa Kehilangan Elemen Manusiawi</h2>
+      <div class="modal-meta">FX Agung Nugroho · 22 Januari 2026 · 6 menit baca</div>
+      <div class="modal-content">
+        <p>Versi jujurnya dimulai dengan pengakuan: ketika saya pertama kali mulai menggunakan alat AI secara rutin, saya mencari jalan pintas. Yang saya temukan adalah sesuatu yang lebih menarik. pemaksa untuk berpikir lebih jernih.</p>
+        <h2>Di Mana AI Benar-benar Membantu</h2>
+        <p><strong>Generasi draft pertama.</strong> Kerangka kurikulum, skrip pelatihan, kerangka penilaian. AI mengurangi waktu-ke-draft-pertama secara drastis. Ia menghilangkan masalah halaman kosong.</p>
+        <p><strong>Perluasan perspektif.</strong> Saya sekarang menggunakan AI untuk menantang asumsi saya sebelum menyelesaikan desain apapun. Prompt seperti "apa yang akan dikatakan pelajar skeptis tentang modul ini?" mengungkap titik buta yang sebaliknya membutuhkan berjam-jam wawancara pemangku kepentingan.</p>
+        <h2>Di Mana AI Kurang</h2>
+        <p>AI tidak dapat menggantikan pekerjaan relasional dalam L&D. Ia tidak bisa membaca arus emosional dalam sesi coaching. Ia tidak bisa membangun kredibilitas yang datang dari trainer yang telah melakukan pekerjaan yang mereka latihkan kepada orang lain.</p>
+        <h2>Membangun Tim yang Melek AI</h2>
+        <p>Peluang nyata: bukan hanya mengadopsi AI sendiri, tetapi membangun <strong>literasi AI organisasi</strong> sebagai kapabilitas inti. Jadikan adopsi AI aman untuk dieksperimentasikan. Pola pikir yang Anda inginkan: "selalu tanyakan apakah AI bisa membantu di sini. dan selalu tanyakan apakah elemen manusiawi masih ada di mana ia dibutuhkan."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: SCALE -->
+<div class="modal-overlay" id="modal-scale" onclick="closeOut(event,'modal-scale')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-scale')">✕</button>
+    <span class="modal-tag">Operations · Scale · Leadership</span>
+    <div class="en-only">
+      <h2 class="modal-title">Managing a Nationwide Learning Network: What Scale Taught Me About Trust</h2>
+      <div class="modal-meta">FX Agung Nugroho · 3 February 2026 · 5 min read</div>
+      <div class="modal-content">
+        <p>At some point in every organization's L&D journey, the question shifts from "are we running good training?" to "how do we run good training everywhere, all the time, without being in the room?"</p>
+        <h2>The Illusion of Centralized Control</h2>
+        <p>My first instinct was to build a tight, centralized system. Standardized scripts. Mandatory sequences. Central sign-off on content. It felt rigorous. It was actually fragile. Centralized control optimizes for consistency at the expense of relevance.</p>
+        <h2>The Network Model</h2>
+        <p>The shift that worked: from a <strong>delivery model to a network model</strong>. We invested in Learning Partners as learning leaders in their own right. Frameworks, not scripts. Principles, not mandates. Feedback loops that let local insight flow back to the center.</p>
+        <blockquote>"The job of a central L&D function at scale is not to control the experience. It's to raise the capability of the people closest to the learner."</blockquote>
+        <p>This requires genuine trust in people you may never meet in person. It requires designing for human variability rather than eliminating it. And it requires the humility to accept that the best version of your program will be one you didn't fully design. it emerged from the network.</p>
+        <h2>What This Means Beyond Any Industry</h2>
+        <p>Any organization building capability at scale faces the same tension: how do you maintain coherence without suffocating the local intelligence that makes your frontline effective? Invest relentlessly in the human infrastructure. and then get out of their way.</p>
+      </div>
+    </div>
+    <div class="id-only">
+      <h2 class="modal-title">Mengelola Jaringan Pembelajaran Nasional: Apa yang Skala Ajarkan Tentang Kepercayaan</h2>
+      <div class="modal-meta">FX Agung Nugroho · 3 Februari 2026 · 5 menit baca</div>
+      <div class="modal-content">
+        <p>Pada suatu titik dalam perjalanan L&D setiap organisasi, pertanyaannya bergeser dari "apakah kita menjalankan pelatihan yang baik?" menjadi "bagaimana kita menjalankan pelatihan yang baik di mana saja, setiap saat, tanpa harus ada di ruangan?"</p>
+        <h2>Ilusi Kontrol Terpusat</h2>
+        <p>Naluri pertama saya adalah membangun sistem terpusat yang ketat. Skrip terstandarisasi. Urutan wajib. Persetujuan pusat untuk konten. Terasa ketat. Nyatanya rapuh. Kontrol terpusat mengoptimalkan konsistensi dengan mengorbankan relevansi.</p>
+        <h2>Model Jaringan</h2>
+        <p>Pergeseran yang berhasil: dari <strong>model pengiriman ke model jaringan</strong>. Kami berinvestasi pada Learning Partner sebagai pemimpin pembelajaran di hak mereka sendiri. Kerangka kerja, bukan skrip. Prinsip, bukan mandat.</p>
+        <blockquote>"Tugas fungsi L&D pusat pada skala besar bukan mengendalikan pengalaman. Ini adalah meningkatkan kemampuan orang-orang yang paling dekat dengan pelajar."</blockquote>
+        <p>Ini membutuhkan kepercayaan tulus pada orang-orang yang mungkin tidak pernah Anda temui secara langsung. Investasikan tanpa henti pada infrastruktur manusia. lalu menyingkir dari jalan mereka.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════ -->
+<script>
+/* ── THEME ── */
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  document.getElementById('themeBtn').textContent = next === 'dark' ? '🌙' : '☀️';
+  localStorage.setItem('theme', next);
+}
+(function() {
+  var t = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('themeBtn').textContent = t === 'dark' ? '🌙' : '☀️';
+})();
+
+/* ── LANGUAGE ── */
+var i18n = {
+  en: {
+    'nav.about':'About','nav.philosophy':'Philosophy','nav.ai':'AI & Tools',
+    'nav.insights':'Insights','nav.connect':'Connect',
+    'hero.badge':'Human Capital Development · Jakarta, Indonesia',
+    'hero.cta1':'Learn More','hero.cta2':"Let's Connect",
+    'hero.stat1':'Years in HC Dev','hero.stat2':'Cross-Industry Impact','hero.stat3':'L&D Sub Departments',
+    'hero.stat1.short':'Years','card.partners':'Learning Partners','card.divisions':'Sub Departments','card.ai':'Daily User',
+    'float.ai':'AI-Augmented Practitioner','float.digital':'Digital Learning Architect',
+    'pillar.1.t':'Systems Builder','pillar.2.t':'Data-Informed','pillar.3.t':'People-Centered','pillar.4.t':'Continuous Improver',
+    'form.name':'Name','form.name.ph':'Your full name','form.topic':'Topic','form.topic.ph':'Select a topic...',
+    'form.opt1':'HC Dev Strategy Discussion','form.opt2':'AI in the Workplace','form.opt3':'Collaboration / Partnership',
+    'form.opt4':'Speaking / Facilitation','form.opt5':'Just Connecting',
+    'form.msg':'Message','form.msg.ph':'What would you like to discuss?','form.send':'Send Message →'
+  },
+  id: {
+    'nav.about':'Tentang','nav.philosophy':'Filosofi','nav.ai':'AI & Alat',
+    'nav.insights':'Wawasan','nav.connect':'Hubungi',
+    'hero.badge':'Human Capital Development · Jakarta, Indonesia',
+    'hero.cta1':'Kenali Saya','hero.cta2':'Mari Terhubung',
+    'hero.stat1':'Tahun di HC Dev','hero.stat2':'Dampak Lintas Industri','hero.stat3':'Sub Departemen L&D',
+    'hero.stat1.short':'Tahun','card.partners':'Learning Partner','card.divisions':'Sub Departemen','card.ai':'Pengguna Harian',
+    'float.ai':'Praktisi Berbantuan AI','float.digital':'Arsitek Pembelajaran Digital',
+    'pillar.1.t':'Pembangun Sistem','pillar.2.t':'Berbasis Data','pillar.3.t':'Berpusat pada Manusia','pillar.4.t':'Pembaruan Berkelanjutan',
+    'form.name':'Nama','form.name.ph':'Nama lengkap Anda','form.topic':'Topik','form.topic.ph':'Pilih topik...',
+    'form.opt1':'Diskusi Strategi HC Dev','form.opt2':'AI di Tempat Kerja','form.opt3':'Kolaborasi / Kemitraan',
+    'form.opt4':'Berbicara / Fasilitasi','form.opt5':'Sekadar Terhubung',
+    'form.msg':'Pesan','form.msg.ph':'Apa yang ingin Anda diskusikan?','form.send':'Kirim Pesan →'
+  }
+};
+
+function setLang(lang) {
+  document.documentElement.setAttribute('data-lang', lang);
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-id').classList.toggle('active', lang === 'id');
+  localStorage.setItem('lang', lang);
+  var t = i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var k = el.getAttribute('data-i18n'); if (t[k]) el.textContent = t[k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+    var k = el.getAttribute('data-i18n-ph'); if (t[k]) el.placeholder = t[k];
+  });
+  document.querySelectorAll('.fg select option[data-i18n]').forEach(function(el) {
+    var k = el.getAttribute('data-i18n'); if (t[k]) el.textContent = t[k];
+  });
+  var isId = lang === 'id';
+  var si = document.getElementById('chatStatusText');
+  var ci = document.getElementById('chatInput');
+  if (si) si.textContent = isId ? 'Asisten AI · Online' : 'AI Assistant · Online';
+  if (ci) ci.placeholder = isId ? 'Tanya apa saja tentang FX Agung...' : 'Ask anything about FX Agung...';
+}
+(function() { setLang(localStorage.getItem('lang') || 'en'); })();
+
+/* ── NAVBAR ── */
+window.addEventListener('scroll', function() {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+});
+
+/* ── SCROLL REVEAL ── */
+var ro = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e, i) {
+    if (e.isIntersecting) { setTimeout(function() { e.target.classList.add('visible'); }, i * 60); ro.unobserve(e.target); }
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(function(el) { ro.observe(el); });
+
+/* ── MODALS ── */
+function openModal(id) { document.getElementById('modal-'+id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+function closeOut(e, id) { if (e.target===document.getElementById(id)) closeModal(id); }
+
+/* ── OLDER ARTICLES ── */
+function toggleOlderArticles() {
+  var older = document.getElementById('articles-older');
+  var btn = document.getElementById('btn-older');
+  var isOpen = older.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  var isId = document.documentElement.getAttribute('data-lang') === 'id';
+  document.getElementById('btn-older-text-en').textContent = isOpen ? 'Show Less' : 'Earlier Articles';
+  document.getElementById('btn-older-text-id').textContent = isOpen ? 'Sembunyikan' : 'Artikel Sebelumnya';
+}
+
+/* ── CONTACT FORM ── */
+document.getElementById('submitBtn').addEventListener('click', function() {
+  var isId = document.documentElement.getAttribute('data-lang') === 'id';
+  var btn = this;
+  btn.textContent = isId ? '✓ Pesan Terkirim!' : '✓ Message Sent!';
+  btn.style.background = '#22C55E';
+  btn.style.boxShadow = '0 4px 20px rgba(34,197,94,0.3)';
+  setTimeout(function() {
+    btn.textContent = isId ? 'Kirim Pesan →' : 'Send Message →';
+    btn.style.background = ''; btn.style.boxShadow = '';
+  }, 3000);
+});
+
+/* ── LIVE CHAT ── */
+var chatOpen = false;
+var chatHistory = [];
+var chatTyping = false;
+
+var PROFILE_CONTEXT = "You are an AI assistant representing FX Agung Nugroho on his personal branding website. Speak warmly and conversationally, as if you are FX Agung himself talking about his own experience. Use 'I' when describing background and work. Keep answers concise, warm, and genuine.\n\nAUTOMATIC LANGUAGE DETECTION: Detect whether the user is writing in Indonesian or English, and always reply in that same language.\n\nFORMATTING RULES (strictly follow):\n- Never use markdown: no **bold**, no *italic*, no # headers.\n- Never use dash (-) as a bullet point.\n- If listing items, use numbered format: 1. 2. 3. each on its own line.\n- Write plain conversational text. No asterisks ever.\n\nIMPORTANT FALLBACK RULE: If you cannot answer something from the information below, reply ONLY with this exact token: [[CONTACT_FALLBACK]]\n\nFULL PROFILE:\nName: FX Agung Nugroho\nTitle: Learning Architect & People Developer\nCurrent role: Training and Development Manager at Boga Group, a multi-brand F&B company in Indonesia. Jan 2023 - Present.\nLocation: Banten, Indonesia\nEducation: Bachelor HR Management, Universitas Multimedia Nusantara (2009-2014)\nLanguages: Indonesian (Full Professional), English (Limited Working), Javanese (Native)\n\nAWARDS: Boga Group 2018 Best Employee: Mr. Intelligence\nCERTIFICATIONS: HR Leadership & Strategic Impact; Tableau; HR and Digital Transformation; Employee Experience; Organizational Learning and Development\n\nCAREER:\n1. Training & Development Manager | Boga Group | Jan 2023-Present: Developed Boga Trainer Club, established 10+ Training Centers, contributed to ISO 9001:2015 certification, led Management and Baker Development Programs\n2. T&D Assistant Manager | Boga Group | Aug 2021-Jan 2023: Developed Boga Academy, facilitated classroom and OJT training\n3. Learning & Business Development | CV Margo Energi Sentosa (Shell) | Jul 2020-Sep 2021\n4. Training Assistant Manager | altima mandiri PT | Nov 2019-Jul 2020: Designed technical training programs, managed Mystery Shopper reporting\n5. Training Supervisor | Boga Group | Jul 2017-Nov 2019: Boga Trainer Club member for Pepper Lunch, Kimukatsu, Putu Made; coordinator Management Development Program Kitchen Shaburi & Kintan\n6. OPD Supervisor | Orang Tua Group | Dec 2016-May 2017: TNA, training budgeting, performance appraisal\n7. Retail Training Officer | Orang Tua Group | Jun-Dec 2016: TNA for MOR/BEAU/JYSK, e-learning video content\n8. IC Resources Staff | Orang Tua Group | Feb 2015-May 2016: Shift Leader & Supervisor training modules, training videos for MOR\n9. Recruitment Intern | PT Link Net | Sep-Dec 2013\n\nCURRENT DEPARTMENTS (4 sub departments):\n1. Digital Learning: Moodle LMS and VR\n2. Technical Kitchen: kitchen technical training\n3. Technical Service: service standards training\n4. Head Office HC: corporate and leadership programs\n\nCROSS-INDUSTRY: F&B (Boga Group), Retail & FMCG (Orang Tua Group), Telecommunication (First Media, Siemens), Energy Retail (Shell)\n\nHC PHILOSOPHY: 1.Learning is a Business Function 2.Iteration Over Perfection 3.Context is Everything 4.Technology as Enabler 5.Scale Without Losing the Human 6.Develop People Grow Business\n\nAI TOOLS: Claude (Daily), Gemini (Daily), ChatGPT (Regular), NotebookLM (Weekly), OpenClaw (Exploring), Moodle LMS (Deployed), VR Learning (Deployed)\n\nCONTACT: fxagungn@outlook.com | agung.nugroho@boga.co.id | wa.me/6281911152074 | linkedin.com/in/fxagungn | @fxagungn";
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  var win = document.getElementById('chatWindow');
+  var icon = document.getElementById('fabIcon');
+  win.classList.toggle('open', chatOpen);
+  icon.textContent = chatOpen ? '✕' : '💬';
+  if (chatOpen && chatHistory.length === 0) {
+    var isId = document.documentElement.getAttribute('data-lang') === 'id';
+    appendChatMessage('ai', isId
+      ? 'Halo! Saya asisten AI FX Agung. Tanya tentang karier, filosofi HC Dev, tools AI, atau cara berkolaborasi. Ada yang bisa saya bantu?'
+      : "Hi! I'm FX Agung's AI assistant. Ask me about his career, HC Dev philosophy, AI tools, or how to collaborate. What would you like to know?");
+  }
+}
+
+function appendChatMessage(role, text) {
+  var msgs = document.getElementById('chatMessages');
+  var wrapper = document.createElement('div');
+  wrapper.className = 'chat-msg ' + role;
+  var av = document.createElement('div'); av.className = 'chat-msg-avatar'; av.textContent = role === 'ai' ? 'FX' : '👤';
+  var bub = document.createElement('div'); bub.className = 'chat-bubble';
+  bub.innerHTML = renderChatText(text);
+  wrapper.appendChild(av); wrapper.appendChild(bub);
+  msgs.appendChild(wrapper); msgs.scrollTop = msgs.scrollHeight;
+  if (role === 'ai') chatHistory.push({ role: 'assistant', content: text });
+  else chatHistory.push({ role: 'user', content: text });
+}
+
+function renderChatText(text) {
+  var t = text.replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').replace(/#{1,6}\s*/g,'');
+  var lines = t.split('\n'); var html = ''; var inList = false;
+  lines.forEach(function(line) {
+    var tr = line.trim(); if (!tr) { if (inList) { html += '</ol>'; inList = false; } return; }
+    var nm = tr.match(/^(\d+)[.)]\s*(.+)/);
+    var dm = !nm && tr.match(/^[-•]\s+(.+)/);
+    if (nm) {
+      if (!inList) { html += '<ol style="padding-left:1.2rem;margin:0.4rem 0;line-height:1.7">'; inList = true; }
+      html += '<li style="margin-bottom:0.2rem">' + esc(nm[2]) + '</li>';
+    } else if (dm) {
+      if (!inList) { html += '<ol style="padding-left:1.2rem;margin:0.4rem 0;line-height:1.7">'; inList = true; }
+      html += '<li style="margin-bottom:0.2rem">' + esc(dm[1]) + '</li>';
+    } else {
+      if (inList) { html += '</ol>'; inList = false; }
+      html += '<p style="margin:0 0 0.3rem">' + esc(tr) + '</p>';
+    }
+  });
+  if (inList) html += '</ol>';
+  return html;
+}
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function appendContactButtons(introText) {
+  var isId = document.documentElement.getAttribute('data-lang') === 'id';
+  var msgs = document.getElementById('chatMessages');
+  var wrapper = document.createElement('div'); wrapper.className = 'chat-msg ai';
+  var av = document.createElement('div'); av.className = 'chat-msg-avatar'; av.textContent = 'FX';
+  var bub = document.createElement('div'); bub.className = 'chat-bubble';
+  var intro = document.createElement('p'); intro.style.cssText = 'margin:0 0 0.5rem;font-size:0.84rem;line-height:1.55';
+  intro.textContent = introText;
+  var cards = document.createElement('div'); cards.className = 'chat-contact-cards';
+  [{ico:'💬',label:'WhatsApp',val:isId?'Kirim pesan langsung':'Send a direct message',href:'https://wa.me/6281911152074'},
+   {ico:'💼',label:'LinkedIn',val:'FX Agung Nugroho',href:'https://linkedin.com/in/fxagungn'},
+   {ico:'✉️',label:'Email',val:'fxagungn@outlook.com',href:'mailto:fxagungn@outlook.com'}
+  ].forEach(function(ct) {
+    var a = document.createElement('a'); a.className = 'chat-contact-btn';
+    a.href = ct.href; a.target = '_blank'; a.rel = 'noopener';
+    a.innerHTML = '<span class="ccb-ico">'+ct.ico+'</span><div><span class="ccb-label">'+ct.label+'</span><span class="ccb-val">'+ct.val+'</span></div>';
+    cards.appendChild(a);
+  });
+  bub.appendChild(intro); bub.appendChild(cards);
+  wrapper.appendChild(av); wrapper.appendChild(bub);
+  msgs.appendChild(wrapper); msgs.scrollTop = msgs.scrollHeight;
+  chatHistory.push({ role: 'assistant', content: introText + ' [contact buttons shown]' });
+}
+
+function showTypingIndicator() {
+  var msgs = document.getElementById('chatMessages');
+  var t = document.createElement('div'); t.className = 'chat-msg ai'; t.id = 'chatTypingIndicator';
+  var av = document.createElement('div'); av.className = 'chat-msg-avatar'; av.textContent = 'FX';
+  var bub = document.createElement('div'); bub.className = 'chat-bubble';
+  var dots = document.createElement('div'); dots.className = 'chat-typing';
+  dots.innerHTML = '<span></span><span></span><span></span>';
+  bub.appendChild(dots); t.appendChild(av); t.appendChild(bub);
+  msgs.appendChild(t); msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTypingIndicator() { var el = document.getElementById('chatTypingIndicator'); if (el) el.remove(); }
+function hideSuggestions() { document.getElementById('chatSuggestions').style.display = 'none'; }
+function sendSuggestion(btn) { hideSuggestions(); sendChatMessage(btn.textContent.trim()); }
+
+function sendChat() {
+  var input = document.getElementById('chatInput');
+  var text = input.value.trim();
+  if (!text || chatTyping) return;
+  input.value = ''; hideSuggestions(); sendChatMessage(text);
+}
+
+function sendChatMessage(text) {
+  appendChatMessage('user', text);
+  chatTyping = true;
+  document.getElementById('chatSend').disabled = true;
+  showTypingIndicator();
+
+  var recentHistory = chatHistory.slice(-8);
+  var contextMsg = PROFILE_CONTEXT + '\n\n---\n\nConversation context:\n' +
+    recentHistory.slice(0, -1).map(function(m) { return m.role + ': ' + m.content; }).join('\n') +
+    '\n\nUser: ' + text;
+
+  fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: contextMsg })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    removeTypingIndicator(); chatTyping = false;
+    document.getElementById('chatSend').disabled = false;
+    var reply = data.reply || '[[CONTACT_FALLBACK]]';
+    if (reply.indexOf('[[CONTACT_FALLBACK]]') !== -1) {
+      var isId = document.documentElement.getAttribute('data-lang') === 'id';
+      appendContactButtons(isId ? 'Untuk itu, langsung hubungi saya ya:' : "For that, reach out directly:");
+    } else {
+      appendChatMessage('ai', reply);
+    }
+  })
+  .catch(function() {
+    removeTypingIndicator(); chatTyping = false;
+    document.getElementById('chatSend').disabled = false;
+    var isId = document.documentElement.getAttribute('data-lang') === 'id';
+    appendContactButtons(isId ? 'Ada gangguan koneksi. Hubungi saya langsung:' : 'Connection issue. Reach out directly:');
+  });
+}
+
+/* ── ESCAPE KEY ── */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(function(m) {
+      m.classList.remove('open'); document.body.style.overflow = '';
+    });
+    if (chatOpen) toggleChat();
+  }
+});
+</script>
+</body>
+</html>
